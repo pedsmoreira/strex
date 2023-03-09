@@ -1,0 +1,39 @@
+{
+  "name": "@dxtr.dev/strex",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "String Expressions - human-readable approach to using RegEx in text files",
+  "main": "dist/strex.js",
+  "types": "dist/strex.d.ts",
+  "homepage": "https://dxtr.dev/strex",
+  "repository": "https://github.com/dxtr-dot-dev/strex",
+  "author": "DXTR.DEV <code@dxtr.dev>",
+  "license": "MIT",
+  "keywords": [
+    "regex",
+    "string",
+    "text"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --entry.strex src/strex.ts --dts --format esm --minify",
+    "build:watch": "yarn build --watch",
+    "typecheck": "tsc --noEmit src/strex.ts",
+    "format": "rome format src --write",
+    "lint": "rome check src",
+    "test": "vitest",
+    "postversion": "git push && git push --tags",
+    "ci:check": "yarn check",
+    "ci:test": "yarn build && yarn test",
+    "preversion": "yarn build && yarn test && yarn lint",
+    "version": "yarn build && git add package.json"
+  },
+  "devDependencies": {
+    "rome": "^11.0.0",
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5",
+    "vitest": "^0.29.2"
+  }
+}
