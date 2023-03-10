@@ -1,4 +1,4 @@
-import { StrexMatch } from "../types";
+import { StrexMatch } from "../types/strex-match";
 
 type Args<T extends string> = {
   match: StrexMatch<T>;

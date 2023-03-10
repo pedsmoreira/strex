@@ -1,6 +1,6 @@
-import { extractFromLines } from "./extract-from-lines";
-import { StrexMatch } from "../types";
-import { splitByLine } from "./line-utils";
+import { sliceLines } from "../line-utils/slice-lines";
+import { splitByLine } from "../line-utils/split-by-line";
+import { StrexMatch } from "../types/strex-match";
 
 type Args<T extends string> = {
   contents: string;
@@ -34,7 +34,7 @@ export function replaceMatches<T extends string>({
   let newLines = [...lines];
 
   sortedMatches.forEach((match) => {
-    const before = extractFromLines({
+    const before = sliceLines({
       lines: newLines,
       startLineIndex: 0,
       startColumnIndex: 0,
@@ -42,7 +42,7 @@ export function replaceMatches<T extends string>({
       endColumnIndex: match.startColumnIndex,
     });
 
-    const after = extractFromLines({
+    const after = sliceLines({
       lines: newLines,
       startLineIndex: match.endLineIndex,
       startColumnIndex: match.endColumnIndex,

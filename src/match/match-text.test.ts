@@ -19,7 +19,7 @@ describe("matchText", () => {
   it("matches case #2", () => {
     expect(
       matchText({
-        needle: `import `,
+        needle: "import ",
         haystack: `import React from 'react';`,
         mustMatchAtLineStart: false,
         mustMatchAtLineEnd: false,
@@ -44,7 +44,7 @@ describe("matchText", () => {
   it("matches case #4", () => {
     expect(
       matchText({
-        needle: `import `,
+        needle: "import  ",
         haystack: `import React from 'react';`,
         mustMatchAtLineStart: true,
         mustMatchAtLineEnd: false,
