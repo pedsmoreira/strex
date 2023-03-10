@@ -1,10 +1,21 @@
-import { StrexPartMatch } from "../types/strex-part-match";
+import {
+  StrexPartMatch,
+  StrexVariablePartMatch,
+} from "../types/strex-part-match";
 
-export function getVarsInPartMatches<T extends string>(
-  partMatches: StrexPartMatch<T>[]
-): Record<T, string> {
-  return partMatches.reduce((acc, part) => {
-    if (part.type === "text") return acc;
-    return { ...acc, [part.name as T]: part.value };
-  }, {}) as Record<T, string>;
+function isVariablePartMatch<TVar extends string>(
+  partMatch: StrexPartMatch<TVar>
+): partMatch is StrexVariablePartMatch<TVar> {
+  return partMatch.type === "variable";
+}
+
+export function getVarsInPartMatches<TVar extends string>(
+  partMatches: StrexPartMatch<TVar>[]
+): Record<TVar, string> {
+  return partMatches
+    .filter(isVariablePartMatch)
+    .reduce(
+      (acc, part) => ({ ...acc, [part.name as TVar]: part.value }),
+      {}
+    ) as Record<TVar, string>;
 }
