@@ -1,22 +1,19 @@
-import { StrexMatchPart } from "../types";
+import { StrexPartMatch } from "../types/strex-part-match";
 
-type Args<
-  TVariable extends string,
-  TMatchPart extends StrexMatchPart<TVariable>
-> = {
-  matchPart: TMatchPart;
+type Args<TVar extends string, TPartMatch extends StrexPartMatch<TVar>> = {
+  matchPart: TPartMatch;
   offsetStartLineIndex: number;
   offsetColumnIndex: number;
 };
 
 export function matchPartWithOffset<
-  TVariable extends string,
-  TMatchPart extends StrexMatchPart<TVariable>
+  TVar extends string,
+  TPartMatch extends StrexPartMatch<TVar>
 >({
   matchPart,
   offsetStartLineIndex,
   offsetColumnIndex,
-}: Args<TVariable, TMatchPart>): TMatchPart {
+}: Args<TVar, TPartMatch>): TPartMatch {
   const matchPartStartLineIndex =
     matchPart.type === "text" ? matchPart.lineIndex : matchPart.startLineIndex;
 

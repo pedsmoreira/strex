@@ -1,13 +1,13 @@
-export type StrexMatchTextPart = {
-  type: 'text';
+export type StrexTextPartMatch = {
+  type: "text";
   text: string;
   lineIndex: number;
   startColumnIndex: number;
   endColumnIndex: number;
 };
 
-export type StrexMatchVariablePart<T extends string> = {
-  type: 'variable';
+export type StrexVariablePartMatch<T extends string> = {
+  type: "variable";
   name: string;
   value: string;
   startLineIndex: number;
@@ -16,6 +16,6 @@ export type StrexMatchVariablePart<T extends string> = {
   endColumnIndex: number;
 };
 
-export type StrexMatchPart<T extends string> =
-  | StrexMatchTextPart
-  | StrexMatchVariablePart<T>;
+export type StrexPartMatch<T extends string> =
+  | StrexTextPartMatch
+  | StrexVariablePartMatch<T>;

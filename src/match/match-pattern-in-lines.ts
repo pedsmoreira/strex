@@ -1,15 +1,16 @@
-import { StrexMatch, StrexPattern } from "../types";
+import { StrexMatch } from "../types/strex-match";
+import { StrexPattern } from "../types/strex-pattern";
 import { matchParts } from "./match-parts";
 import { matchPatternPartsInLines } from "./match-pattern-parts-in-lines";
 
 type Args = {
   lines: string[];
-  patternObject: StrexPattern;
+  pattern: StrexPattern;
 };
 
-export function matchAllPatternInLines<T extends string>({
-  lines: originalLines,
-  patternObject: pattern,
+export function matchPatternInLines<T extends string>({
+  lines,
+  pattern,
 }: Args): StrexMatch<T>[] {
   const matches: StrexMatch<T>[] = [];
 
@@ -19,18 +20,18 @@ export function matchAllPatternInLines<T extends string>({
   let startColumnIndex = 0;
 
   while (true) {
-    if (startLineIndex > originalLines.length - 1) break;
+    if (startLineIndex > lines.length - 1) break;
 
     loops++;
-    if (loops > originalLines.length + pattern.patternParts.length) {
+    if (loops > lines.length + pattern.patternParts.length) {
       throw new Error("infinite loop!");
     }
 
-    const [firstLine, ...otherLines] = originalLines.slice(startLineIndex);
+    const [firstLine, ...otherLines] = lines.slice(startLineIndex);
     const slicedFirstLine = firstLine.substring(startColumnIndex);
-    const lines = [slicedFirstLine, ...otherLines];
+    const theLines = [slicedFirstLine, ...otherLines];
 
-    const parts = matchPatternPartsInLines({ lines, pattern });
+    const parts = matchPatternPartsInLines({ lines: theLines, pattern });
 
     if (!parts?.length) {
       startLineIndex += 1;
@@ -38,8 +39,8 @@ export function matchAllPatternInLines<T extends string>({
     }
 
     const match = matchParts({
-      lines,
-      matchParts: parts,
+      lines: theLines,
+      partMatches: parts,
       offsetLineIndex: startLineIndex,
       offsetColumnIndex: startColumnIndex,
     });
@@ -48,7 +49,7 @@ export function matchAllPatternInLines<T extends string>({
 
     // Move the iterator to the end of the match
     const isEndOfLine =
-      match.endColumnIndex === originalLines[match.endLineIndex].length;
+      match.endColumnIndex === lines[match.endLineIndex].length;
 
     if (isEndOfLine) {
       startLineIndex = match.endLineIndex + 1;

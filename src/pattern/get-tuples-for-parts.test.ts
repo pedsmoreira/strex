@@ -1,10 +1,10 @@
-import { patternPartsToPatternVariableTextTuples } from "./pattern-parts-to-pattern-variable-text-tuples";
+import { getTuplesForParts } from "./get-tuples-for-parts";
 import { describe, it, expect } from "vitest";
 
-describe("patternPartsToPatternVariableTextTuples", () => {
+describe("getTuplesForParts", () => {
   it("returns tuples starting with variable", () => {
     expect(
-      patternPartsToPatternVariableTextTuples([
+      getTuplesForParts([
         { type: "variable", name: "variable-one" },
         { type: "text", text: "text-one" },
         { type: "variable", name: "variable-two" },
@@ -24,7 +24,7 @@ describe("patternPartsToPatternVariableTextTuples", () => {
 
   it("returns tuples starting with text", () => {
     expect(
-      patternPartsToPatternVariableTextTuples([
+      getTuplesForParts([
         { type: "text", text: "text-one" },
         { type: "variable", name: "variable-two" },
         { type: "text", text: "text-two" },
@@ -40,7 +40,7 @@ describe("patternPartsToPatternVariableTextTuples", () => {
 
   it("returns tuples ending with variable", () => {
     expect(
-      patternPartsToPatternVariableTextTuples([
+      getTuplesForParts([
         { type: "variable", name: "variable-one" },
         { type: "text", text: "text-one" },
         { type: "variable", name: "variable-two" },

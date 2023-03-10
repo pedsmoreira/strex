@@ -1,10 +1,10 @@
-import { extractFromLines } from "./extract-from-lines";
+import { sliceLines } from "./slice-lines";
 import { describe, it, expect } from "vitest";
 
-describe("extractFromLines", () => {
+describe("sliceLines", () => {
   it("matches case #1", () => {
     expect(
-      extractFromLines({
+      sliceLines({
         lines: [
           "I've always been the one to say the first goodbye",
           "Had to love and lose a hundred million times",
@@ -21,7 +21,7 @@ describe("extractFromLines", () => {
 
   it("matches case #2", () => {
     expect(
-      extractFromLines({
+      sliceLines({
         lines: ["Sun is shinin' in the sky", "There ain't a cloud in sight"],
         startLineIndex: 1,
         startColumnIndex: 12,

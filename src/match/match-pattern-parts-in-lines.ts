@@ -1,8 +1,9 @@
-import { StrexMatchPart, StrexPattern } from "../types";
+import { StrexPartMatch } from "../types/strex-part-match";
+import { StrexPattern } from "../types/strex-pattern";
 import { linesForEndOn } from "../line-utils/lines-for-end-on";
 import { matchPatternVariableTextTupleParts } from "./match-pattern-variable-text-tuple-parts";
 import { matchPartWithOffset } from "./match-part-with-offset";
-import { patternPartsToPatternVariableTextTuples } from "../pattern/pattern-parts-to-pattern-variable-text-tuples";
+import { getTuplesForParts } from "../pattern/get-tuples-for-parts";
 
 type Args = {
   lines: string[];
@@ -12,14 +13,14 @@ type Args = {
 export function matchPatternPartsInLines<T extends string>({
   lines: originalLines,
   pattern,
-}: Args): StrexMatchPart<T>[] | undefined {
+}: Args): StrexPartMatch<T>[] | undefined {
   const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd, endOn } =
     pattern;
 
   const linesBeforeEnd = linesForEndOn({ lines: originalLines, endOn });
 
-  const tuples = patternPartsToPatternVariableTextTuples(patternParts);
-  const matchParts: StrexMatchPart<T>[] = [];
+  const tuples = getTuplesForParts(patternParts);
+  const matchParts: StrexPartMatch<T>[] = [];
 
   let startLineIndex = 0;
   let startColumnIndex = 0;

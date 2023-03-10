@@ -1,37 +1,31 @@
-import { matchAllPatternInLines } from "./match/match-all-pattern-in-lines";
-import { patternPartsFromString } from "./pattern/pattern-parts-from-string";
-import { StrexMatch, StrexMatchEndOn, StrexPattern } from "./types/index";
+import { StrexMatchEndOn } from "./types/strex-match-end-on";
+import { StrexPattern } from "./types/strex-pattern";
+import { StrexMatch } from "./types/strex-match";
+import { getPartsInPatternString } from "./pattern/get-parts-in-pattern-string";
+import { matchPatternInLines } from "./match/match-pattern-in-lines";
 
-export function strex<TVariable extends string>({
-  text,
-  pattern,
-  options,
-}: {
-  text: string;
-  pattern: string;
-  options?: {
-    endOn?: StrexMatchEndOn;
-    mustMatchAtLineStart?: boolean;
-    mustMatchAtLineEnd?: boolean;
-  };
-}): StrexMatch<TVariable>[] {
-  const { endOn, mustMatchAtLineStart, mustMatchAtLineEnd } = options || {};
-  const parts = patternPartsFromString(pattern);
+type StrExpOptions = {
+  endOn?: StrexMatchEndOn;
+  mustMatchAtLineStart?: boolean;
+  mustMatchAtLineEnd?: boolean;
+};
 
-  const patternObject: StrexPattern = {
-    patternParts: parts,
-    mustMatchAtLineStart: Boolean(mustMatchAtLineStart),
-    mustMatchAtLineEnd: Boolean(mustMatchAtLineEnd),
-    endOn: endOn || { type: "pattern" },
-  };
+export class StrExp {
+  pattern: StrexPattern;
 
-  const lines = text.split("\n");
-  const matches = matchAllPatternInLines({
-    lines,
-    patternObject: patternObject,
-  });
+  constructor(patternString: string, options?: StrExpOptions) {
+    const { endOn, mustMatchAtLineStart, mustMatchAtLineEnd } = options || {};
 
-  return matches;
+    this.pattern = {
+      patternParts: getPartsInPatternString(patternString),
+      mustMatchAtLineStart: Boolean(mustMatchAtLineStart),
+      mustMatchAtLineEnd: Boolean(mustMatchAtLineEnd),
+      endOn: endOn || { type: "pattern" },
+    };
+  }
+
+  match<TVar extends string>(text: string): StrexMatch<TVar>[] {
+    const lines = text.split("\n");
+    return matchPatternInLines({ lines, pattern: this.pattern });
+  }
 }
-
-export { StrexMatch, StrexPattern, StrexMatchEndOn };

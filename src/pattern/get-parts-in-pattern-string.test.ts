@@ -1,10 +1,10 @@
-import { patternPartsFromString } from "./pattern-parts-from-string";
+import { getPartsInPatternString } from "./get-parts-in-pattern-string";
 import { describe, it, expect } from "vitest";
 
-describe("patternFromString", function () {
+describe("getPartsInPatternString", function () {
   it("matches case #1", () => {
     expect(
-      patternPartsFromString("import @{{ name }} from '@{{ location }}';")
+      getPartsInPatternString("import @{{ name }} from '@{{ location }}';")
     ).toEqual([
       { type: "text", text: "import " },
       { type: "variable", name: "name" },

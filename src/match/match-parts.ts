@@ -1,23 +1,24 @@
-import { extractFromLines } from "../line-utils/extract-from-lines";
-import { StrexMatch, StrexMatchPart } from "../types";
-import { extractVariablesFromMatchParts } from "./extract-variables-from-match-parts";
+import { sliceLines } from "../line-utils/slice-lines";
+import { StrexMatch } from "../types/strex-match";
+import { StrexPartMatch } from "../types/strex-part-match";
+import { getVarsInPartMatches } from "./get-vars-in-part-matches";
 import { joinLines } from "../line-utils/join-lines";
 
 type Args<T extends string> = {
   lines: string[];
-  matchParts: StrexMatchPart<T>[];
+  partMatches: StrexPartMatch<T>[];
   offsetLineIndex: number;
   offsetColumnIndex: number;
 };
 
 export function matchParts<T extends string>({
   lines,
-  matchParts,
+  partMatches,
   offsetLineIndex,
   offsetColumnIndex,
 }: Args<T>): StrexMatch<T> {
-  const firstMatchPart = matchParts[0];
-  const lastMatchPart = matchParts[matchParts.length - 1];
+  const firstMatchPart = partMatches[0];
+  const lastMatchPart = partMatches[partMatches.length - 1];
 
   const startLineIndex =
     firstMatchPart.type === "text"
@@ -29,7 +30,7 @@ export function matchParts<T extends string>({
       ? lastMatchPart.lineIndex
       : lastMatchPart.endLineIndex;
 
-  const matchedLines = extractFromLines({
+  const matchedLines = sliceLines({
     lines,
     startLineIndex: 0,
     startColumnIndex: 0,
@@ -37,18 +38,20 @@ export function matchParts<T extends string>({
     endColumnIndex: lastMatchPart.endColumnIndex,
   });
 
-  const variables = extractVariablesFromMatchParts({ matchParts });
+  const variables = getVarsInPartMatches(partMatches);
+
+  const endColumnIndex =
+    startLineIndex === endLineIndex
+      ? offsetColumnIndex + lastMatchPart.endColumnIndex
+      : lastMatchPart.endColumnIndex;
 
   return {
     text: joinLines(matchedLines),
     startLineIndex: offsetLineIndex + startLineIndex,
     startColumnIndex: offsetColumnIndex + firstMatchPart.startColumnIndex,
     endLineIndex: offsetLineIndex + endLineIndex,
-    endColumnIndex:
-      startLineIndex === endLineIndex
-        ? offsetColumnIndex + lastMatchPart.endColumnIndex
-        : lastMatchPart.endColumnIndex,
-    matchParts,
+    endColumnIndex,
+    matchParts: partMatches,
     variables,
   };
 }

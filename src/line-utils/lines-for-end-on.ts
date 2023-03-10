@@ -1,4 +1,4 @@
-import { StrexMatchEndOn } from "../types";
+import { StrexMatchEndOn } from "../types/strex-match-end-on";
 
 type Args = {
   lines: string[];

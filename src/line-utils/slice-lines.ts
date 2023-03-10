@@ -6,7 +6,7 @@ type Args = {
   endColumnIndex: number;
 };
 
-export function extractFromLines({
+export function sliceLines({
   lines,
   startLineIndex,
   startColumnIndex,

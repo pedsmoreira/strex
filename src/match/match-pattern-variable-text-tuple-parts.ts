@@ -1,24 +1,24 @@
 import { joinLines } from "../line-utils/join-lines";
 import {
-  StrexMatchPart,
-  StrexMatchTextPart,
-  StrexMatchVariablePart,
-  StrexPatternVariableTextPartTuple,
-} from "../types";
+  StrexPartMatch,
+  StrexTextPartMatch,
+  StrexVariablePartMatch,
+} from "../types/strex-part-match";
+import { StrexPartTuple } from "../types/strex-part-tuple";
 
 type Args = {
   lines: string[];
-  tuple: StrexPatternVariableTextPartTuple;
+  tuple: StrexPartTuple;
   mustMatchAtLineStart: boolean;
   mustMatchAtLineEnd: boolean;
 };
 
-export function matchPatternVariableTextTupleParts<T extends string>({
+export function matchPatternVariableTextTupleParts<TVar extends string>({
   lines,
   tuple,
   mustMatchAtLineStart,
   mustMatchAtLineEnd,
-}: Args): StrexMatchPart<T>[] | undefined {
+}: Args): StrexPartMatch<TVar>[] | undefined {
   const [patternVariablePart, patternTextPart] = tuple;
 
   /*
@@ -32,7 +32,7 @@ export function matchPatternVariableTextTupleParts<T extends string>({
 
     const lastLine = lines[lines.length - 1];
 
-    const matchVariablePart: StrexMatchVariablePart<T> = {
+    const matchVariablePart: StrexVariablePartMatch<TVar> = {
       type: "variable",
       name: patternVariablePart.name,
       value: joinLines(lines),
@@ -71,7 +71,7 @@ export function matchPatternVariableTextTupleParts<T extends string>({
   const textEndIndex = textStartIndex + patternTextPart.text.length;
   const matchText = matchTextLine.substring(textStartIndex, textEndIndex);
 
-  const matchTextPart: StrexMatchTextPart = {
+  const matchTextPart: StrexTextPartMatch = {
     type: "text",
     text: matchText,
     lineIndex: matchTextLineIndex,
@@ -100,7 +100,7 @@ export function matchPatternVariableTextTupleParts<T extends string>({
   const lastSlicedVariableLine =
     slicedVariableLines[slicedVariableLines.length - 1] || "";
 
-  const matchVariablePart: StrexMatchVariablePart<T> = {
+  const matchVariablePart: StrexVariablePartMatch<TVar> = {
     type: "variable",
     name: patternVariablePart.name,
     value: joinLines(slicedVariableLines),

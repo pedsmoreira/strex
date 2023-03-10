@@ -1,11 +1,11 @@
-import { StrexMatchPart } from "./strex-match-part";
+import { StrexPartMatch } from "./strex-part-match";
 
-export interface StrexMatch<TVariable extends string> {
+export interface StrexMatch<TVar extends string> {
   readonly text: string;
   readonly startLineIndex: number;
   readonly startColumnIndex: number;
   readonly endLineIndex: number;
   readonly endColumnIndex: number;
-  readonly matchParts: StrexMatchPart<TVariable>[];
-  readonly variables: Record<TVariable, string>;
+  readonly matchParts: StrexPartMatch<TVar>[];
+  readonly variables: Record<TVar, string>;
 }
