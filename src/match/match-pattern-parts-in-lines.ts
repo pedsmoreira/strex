@@ -1,8 +1,8 @@
 import { StrexMatchPart, StrexPattern } from "../types";
-import { linesForEndOn } from "./lines-for-end-on";
+import { linesForEndOn } from "../line-utils/lines-for-end-on";
 import { matchPatternVariableTextTupleParts } from "./match-pattern-variable-text-tuple-parts";
-import { offsetMatchPart } from "./offset-match-part";
-import { patternPartsToPatternVariableTextTuples } from "./pattern-parts-to-pattern-variable-text-tuples";
+import { matchPartWithOffset } from "./match-part-with-offset";
+import { patternPartsToPatternVariableTextTuples } from "../pattern/pattern-parts-to-pattern-variable-text-tuples";
 
 type Args = {
   lines: string[];
@@ -40,7 +40,7 @@ export function matchPatternPartsInLines<T extends string>({
       mustMatchAtLineStart: mustMatchAtLineStart || !isFirstTuple,
       mustMatchAtLineEnd: mustMatchAtLineEnd && isLastTuple,
     })?.map((matchPart) =>
-      offsetMatchPart({
+      matchPartWithOffset({
         matchPart,
         offsetStartLineIndex: startLineIndex,
         offsetColumnIndex: startColumnIndex,

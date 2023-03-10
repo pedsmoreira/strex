@@ -9,7 +9,7 @@ type Args<
   offsetColumnIndex: number;
 };
 
-export function offsetMatchPart<
+export function matchPartWithOffset<
   TVariable extends string,
   TMatchPart extends StrexMatchPart<TVariable>
 >({

@@ -1,7 +1,7 @@
-import { extractFromLines } from "./extract-from-lines";
+import { extractFromLines } from "../line-utils/extract-from-lines";
 import { StrexMatch, StrexMatchPart } from "../types";
 import { extractVariablesFromMatchParts } from "./extract-variables-from-match-parts";
-import { joinLines } from "./line-utils";
+import { joinLines } from "../line-utils/join-lines";
 
 type Args<T extends string> = {
   lines: string[];
@@ -10,7 +10,7 @@ type Args<T extends string> = {
   offsetColumnIndex: number;
 };
 
-export function createMatchFromMatchParts<T extends string>({
+export function matchParts<T extends string>({
   lines,
   matchParts,
   offsetLineIndex,

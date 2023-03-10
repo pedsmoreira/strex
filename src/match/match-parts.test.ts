@@ -1,9 +1,9 @@
-import { splitByLine } from "./line-utils";
+import { splitByLine } from "../line-utils/split-by-line";
 import {
   importsExampleContent,
   importsExampleMatches,
 } from "../../tests/fixtures/imports-example";
-import { createMatchFromMatchParts } from "./create-match-from-match-parts";
+import { matchParts } from "./match-parts";
 import { describe, it, expect } from "vitest";
 
 describe("createMatchFromMatchParts", () => {
@@ -11,7 +11,7 @@ describe("createMatchFromMatchParts", () => {
     const lines = splitByLine(importsExampleContent).slice(1);
 
     expect(
-      createMatchFromMatchParts({
+      matchParts({
         lines,
         matchParts: importsExampleMatches[0].matchParts,
         offsetLineIndex: 1,

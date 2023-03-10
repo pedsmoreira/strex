@@ -1,4 +1,4 @@
-import { joinLines } from "./line-utils";
+import { joinLines } from "../line-utils/join-lines";
 import {
   StrexMatchPart,
   StrexMatchTextPart,
@@ -6,12 +6,12 @@ import {
   StrexPatternVariableTextPartTuple,
 } from "../types";
 
-type Args {
+type Args = {
   lines: string[];
   tuple: StrexPatternVariableTextPartTuple;
   mustMatchAtLineStart: boolean;
   mustMatchAtLineEnd: boolean;
-}
+};
 
 export function matchPatternVariableTextTupleParts<T extends string>({
   lines,
