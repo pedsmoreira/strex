@@ -1,22 +1,22 @@
 import { StrexMatch } from "../types/strex-match";
 
 type Args<T extends string> = {
-  match: StrexMatch<T>;
-  variables: Partial<Record<T, string>>;
+	match: StrexMatch<T>;
+	variables: Partial<Record<T, string>>;
 };
 
 export function replaceVariablesInMatch<T extends string>({
-  match,
-  variables,
+	match,
+	variables,
 }: Args<T>): string {
-  const mappedParts = match.matchParts.map((part) => {
-    if (part.type === "text") return part.text;
+	const mappedParts = match.matchParts.map((part) => {
+		if (part.type === "text") return part.text;
 
-    if (part.type === "variable") {
-      const replacement = variables[part.name as T];
-      return replacement === undefined ? part.value : replacement;
-    }
-  });
+		if (part.type === "variable") {
+			const replacement = variables[part.name as T];
+			return replacement === undefined ? part.value : replacement;
+		}
+	});
 
-  return mappedParts.join("");
+	return mappedParts.join("");
 }

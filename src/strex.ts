@@ -5,15 +5,15 @@ import { StrexPartMatch } from "./StrexPartMatch";
 import { StrexResult } from "./StrexResult";
 
 export function strex<TVar extends string>({
-  text,
-  patternString,
-  options,
+	text,
+	patternString,
+	options,
 }: {
-  text: string;
-  patternString: string;
-  options?: StrexOptions;
+	text: string;
+	patternString: string;
+	options?: StrexOptions;
 }): StrexResult<TVar> {
-  return new StrexExp(patternString, options).match(text);
+	return new StrexExp(patternString, options).match(text);
 }
 
 export { StrexExp, StrexMatch, StrexPartMatch };

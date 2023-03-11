@@ -1,6 +1,6 @@
 import { StrexTextPart, StrexVariablePart } from "./strex-part";
 
 export type StrexPartTuple = [
-  StrexVariablePart | undefined,
-  StrexTextPart | undefined
+	StrexVariablePart | undefined,
+	StrexTextPart | undefined,
 ];

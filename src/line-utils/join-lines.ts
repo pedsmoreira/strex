@@ -1,3 +1,3 @@
 export function joinLines(lines: string[]): string {
-  return lines.join("\n");
+	return lines.join("\n");
 }

@@ -4,35 +4,35 @@ const PATTERN_START = "@{{";
 const PATTERN_END = "}}";
 
 export function getPartsInPatternString(patternString: string): StrexPart[] {
-  let remaining = patternString.replace(/\n/g, "");
+	let remaining = patternString.replace(/\n/g, "");
 
-  const parts: StrexPart[] = [];
+	const parts: StrexPart[] = [];
 
-  while (true) {
-    const matchStart = remaining.indexOf(PATTERN_START);
+	while (true) {
+		const matchStart = remaining.indexOf(PATTERN_START);
 
-    if (matchStart === -1) {
-      parts.push({ type: "text", text: remaining });
-      break;
-    }
+		if (matchStart === -1) {
+			parts.push({ type: "text", text: remaining });
+			break;
+		}
 
-    const matchEnd = remaining.indexOf(PATTERN_END, matchStart);
+		const matchEnd = remaining.indexOf(PATTERN_END, matchStart);
 
-    if (matchStart > 0) {
-      parts.push({
-        type: "text",
-        text: remaining.substring(0, matchStart),
-      });
-    }
+		if (matchStart > 0) {
+			parts.push({
+				type: "text",
+				text: remaining.substring(0, matchStart),
+			});
+		}
 
-    const name = remaining
-      .substring(matchStart + PATTERN_START.length, matchEnd)
-      .trim();
+		const name = remaining
+			.substring(matchStart + PATTERN_START.length, matchEnd)
+			.trim();
 
-    parts.push({ type: "variable", name });
+		parts.push({ type: "variable", name });
 
-    remaining = remaining.substring(matchEnd + PATTERN_END.length);
-  }
+		remaining = remaining.substring(matchEnd + PATTERN_END.length);
+	}
 
-  return parts;
+	return parts;
 }

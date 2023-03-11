@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tsup --entry.strex src/strex.ts --dts --format esm --minify",
     "build:watch": "yarn build --watch",
-    "typecheck": "tsc --noEmit src/strex.ts",
+    "typecheck": "tsc --target ES6 --noEmit src/strex.ts",
     "format": "rome format src --write",
     "lint": "rome check src",
     "test": "vitest",
