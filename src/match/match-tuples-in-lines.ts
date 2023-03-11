@@ -13,7 +13,7 @@ type Args = {
   mustMatchAtLineEnd: boolean;
 };
 
-export function matchPatternVariableTextTupleParts<TVar extends string>({
+export function matchTuplesInLines<TVar extends string>({
   lines,
   tuple,
   mustMatchAtLineStart,

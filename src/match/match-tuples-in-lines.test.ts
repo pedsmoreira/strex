@@ -1,10 +1,10 @@
-import { matchPatternVariableTextTupleParts } from "./match-pattern-variable-text-tuple-parts";
+import { matchTuplesInLines } from "./match-tuples-in-lines";
 import { describe, it, expect } from "vitest";
 
 describe("matchPatternVariableTextTupleParts", () => {
   it("returns match parts given a tuple with text only", () => {
     expect(
-      matchPatternVariableTextTupleParts({
+      matchTuplesInLines({
         lines: [`import oneReducer from '../redux/main/one';`],
         tuple: [undefined, { type: "text", text: "import " }],
         mustMatchAtLineStart: true,
@@ -23,7 +23,7 @@ describe("matchPatternVariableTextTupleParts", () => {
 
   it("returns match parts given a tuple with variable + text", () => {
     expect(
-      matchPatternVariableTextTupleParts({
+      matchTuplesInLines({
         lines: [`oneReducer from '../redux/main/one';`],
         tuple: [
           { type: "variable", name: "imports" },
