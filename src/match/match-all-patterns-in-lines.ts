@@ -1,14 +1,13 @@
-import { StrexMatch } from "../types/strex-match";
+import { StrexMatch } from "../StrexMatch";
 import { StrexPattern } from "../types/strex-pattern";
-import { matchParts } from "./match-parts";
-import { matchPatternPartsInLines } from "./match-pattern-parts-in-lines";
+import { matchPatternInLines } from "./match-pattern-in-lines";
 
 type Args = {
   lines: string[];
   pattern: StrexPattern;
 };
 
-export function matchPartsWithPatternInLines<T extends string>({
+export function matchAllPatternsInLines<T extends string>({
   lines,
   pattern,
 }: Args): StrexMatch<T>[] {
@@ -31,7 +30,7 @@ export function matchPartsWithPatternInLines<T extends string>({
     const slicedFirstLine = firstLine.substring(startColumnIndex);
     const theLines = [slicedFirstLine, ...otherLines];
 
-    const parts = matchPatternPartsInLines({ lines: theLines, pattern });
+    const parts = matchPatternInLines({ lines: theLines, pattern });
 
     if (!parts?.length) {
       startLineIndex += 1;
