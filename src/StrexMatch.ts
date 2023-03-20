@@ -29,13 +29,19 @@ export class StrexMatch<TVar extends string> {
 			) as Record<TVar, string>;
 	}
 
-	get startLineIndex(): number {
-		const firstPartMatch = this.partMatches[0];
+	get firstPartMatch() {
+		return this.partMatches[0];
+	}
 
+	get lastPartMatch() {
+		return this.partMatches[this.partMatches.length - 1];
+	}
+
+	get startLineIndex(): number {
 		const startLineIndex =
-			firstPartMatch.type === "text"
-				? firstPartMatch.lineIndex
-				: firstPartMatch.startLineIndex;
+			this.firstPartMatch.type === "text"
+				? this.firstPartMatch.lineIndex
+				: this.firstPartMatch.startLineIndex;
 
 		return this.offsetLineIndex + startLineIndex;
 	}
@@ -51,14 +57,16 @@ export class StrexMatch<TVar extends string> {
 		return this.offsetLineIndex + endLineIndex;
 	}
 
-	get endColumnIndex(): number {
-		const lastPartMatch = this.partMatches[this.partMatches.length - 1];
+	get startColumnIndex(): number {
+		return this.offsetColumnIndex + this.firstPartMatch.startColumnIndex;
+	}
 
+	get endColumnIndex(): number {
 		if (this.startLineIndex === this.endLineIndex) {
-			return this.offsetColumnIndex + lastPartMatch.endColumnIndex;
+			return this.offsetColumnIndex + this.lastPartMatch.endColumnIndex;
 		}
 
-		return lastPartMatch.endColumnIndex;
+		return this.lastPartMatch.endColumnIndex;
 	}
 
 	get text(): string {

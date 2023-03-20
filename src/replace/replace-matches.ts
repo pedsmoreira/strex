@@ -1,6 +1,7 @@
 import { sliceLines } from "../line-utils/slice-lines";
 import { splitByLine } from "../line-utils/split-by-line";
-import { StrexMatch } from "../types/strex-match";
+import { joinLines } from "../strex";
+import { StrexMatch } from "../StrexMatch";
 
 type Args<T extends string> = {
 	contents: string;
@@ -19,8 +20,7 @@ export function replaceMatches<T extends string>({
 }: Args<T>): string {
 	const lines = splitByLine(contents);
 
-	// We must remove the last lines first otherwise the indexes
-	// will be incorrect
+	// Must remove the last lines first otherwise the indexes will be incorrect
 	const sortedMatches = matches
 		.sort((matchA, matchB) => {
 			const matchAString = matchString(matchA);
@@ -51,10 +51,9 @@ export function replaceMatches<T extends string>({
 		});
 
 		const replacement = replace(match);
-		newLines = `${before.join("\n")}${replacement}${after.join("\n")}`.split(
-			"\n",
-		);
+		const newContent = `${joinLines(before)}${replacement}${joinLines(after)}`;
+		newLines = splitByLine(newContent);
 	});
 
-	return newLines.join("\n");
+	return joinLines(newLines);
 }

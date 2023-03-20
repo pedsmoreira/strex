@@ -22,7 +22,7 @@ export function matchTuplesInLines<TVar extends string>({
 	const [patternVariablePart, patternTextPart] = tuple;
 
 	/*
-	 * Variable only part
+	 * Tuple has only a variable
 	 */
 
 	if (!patternTextPart) {

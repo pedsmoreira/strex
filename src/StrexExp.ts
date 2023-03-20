@@ -1,5 +1,6 @@
 import { matchAllPatternsInLines } from "./match/match-all-patterns-in-lines";
 import { getPartsInPatternString } from "./pattern/get-parts-in-pattern-string";
+import { splitByLine } from "./strex";
 import { StrexResult } from "./StrexResult";
 import { StrexOptions } from "./types/strex-options";
 import { StrexPattern } from "./types/strex-pattern";
@@ -19,7 +20,7 @@ export class StrexExp {
 	}
 
 	match<TVar extends string>(text: string): StrexResult<TVar> {
-		const lines = text.split("\n");
+		const lines = splitByLine(text);
 		const matches = matchAllPatternsInLines({ lines, pattern: this.pattern });
 
 		return new StrexResult(matches);

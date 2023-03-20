@@ -51,6 +51,7 @@ export function matchPatternInLines<T extends string>({
 		if (!tupleMatchParts) return undefined;
 
 		const lastTupleMatch = tupleMatchParts[tupleMatchParts.length - 1];
+
 		const endLineIndex =
 			lastTupleMatch.type === "text"
 				? lastTupleMatch.lineIndex

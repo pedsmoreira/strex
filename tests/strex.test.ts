@@ -1,6 +1,6 @@
-import { Strex } from "../dist/strex";
+import { strex } from "../dist/strex";
 import { it, expect } from "vitest";
 
 it("works", () => {
-  new Strex({});
+	strex({ text: "", patternString: "" });
 });

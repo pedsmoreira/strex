@@ -1,4 +1,4 @@
-import { StrexMatch } from "../types/strex-match";
+import { StrexMatch } from "../StrexMatch";
 
 type Args<T extends string> = {
 	match: StrexMatch<T>;
@@ -9,7 +9,7 @@ export function replaceVariablesInMatch<T extends string>({
 	match,
 	variables,
 }: Args<T>): string {
-	const mappedParts = match.matchParts.map((part) => {
+	const mappedParts = match.partMatches.map((part) => {
 		if (part.type === "text") return part.text;
 
 		if (part.type === "variable") {

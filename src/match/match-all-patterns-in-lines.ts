@@ -33,7 +33,7 @@ export function matchAllPatternsInLines<T extends string>({
 		const parts = matchPatternInLines({ lines: theLines, pattern });
 
 		if (!parts?.length) {
-			startLineIndex += 1;
+			startLineIndex++;
 			continue;
 		}
 

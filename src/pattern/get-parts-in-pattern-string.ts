@@ -32,6 +32,7 @@ export function getPartsInPatternString(patternString: string): StrexPart[] {
 		parts.push({ type: "variable", name });
 
 		remaining = remaining.substring(matchEnd + PATTERN_END.length);
+		if (!remaining) break;
 	}
 
 	return parts;
