@@ -1,4 +1,3 @@
-import { S } from "vitest/dist/types-7cd96283";
 import { escapeRegexString } from "./escape-regex-string";
 
 type Args = {
@@ -17,6 +16,7 @@ export function matchAllString({ haystack, needle }: Args): MatchAllResult[] {
 	const matches = haystack.matchAll(new RegExp(escapeRegexString(needle), "g"));
 
 	for (const match of matches) {
+		if (typeof match.index === "undefined") break;
 		results.push({ startIndex: match.index, text: match[0] });
 	}
 

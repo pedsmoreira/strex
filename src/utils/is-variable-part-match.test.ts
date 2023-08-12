@@ -12,7 +12,7 @@ it("returns true for a varaible part match", () => {
 			startColumnIndex: 1,
 			endColumnIndex: 0,
 		}),
-	).toBe(true);
+	).toBeTruthy();
 });
 
 it("returns false for a text part match", () => {
@@ -24,5 +24,5 @@ it("returns false for a text part match", () => {
 			startColumnIndex: 0,
 			endColumnIndex: 1,
 		}),
-	).toBe(false);
+	).toBeFalsy();
 });

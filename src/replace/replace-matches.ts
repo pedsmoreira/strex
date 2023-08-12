@@ -1,6 +1,6 @@
 import { sliceLines } from "../line-utils/slice-lines";
 import { splitByLine } from "../line-utils/split-by-line";
-import { joinLines } from "../strex";
+import { joinLines } from "../line-utils/join-lines";
 import { StrexMatch } from "../StrexMatch";
 
 type Args<T extends string> = {

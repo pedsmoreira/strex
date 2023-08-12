@@ -1,38 +1,42 @@
 import { StrexPartMatch } from "../types/strex-part-match";
 
-type Args<TVar extends string, TPartMatch extends StrexPartMatch<TVar>> = {
-	matchPart: TPartMatch;
+type Args<TVar extends string> = {
+	matchPart: StrexPartMatch<TVar>;
 	offsetStartLineIndex: number;
 	offsetColumnIndex: number;
 };
 
-export function matchPartWithOffset<
-	TVar extends string,
-	TPartMatch extends StrexPartMatch<TVar>,
->({
+export function matchPartWithOffset<TVar extends string,>({
 	matchPart,
 	offsetStartLineIndex,
 	offsetColumnIndex,
-}: Args<TVar, TPartMatch>): TPartMatch {
+}: Args<TVar>): StrexPartMatch<TVar> {
 	const matchPartStartLineIndex =
 		matchPart.type === "text" ? matchPart.lineIndex : matchPart.startLineIndex;
 
 	const matchPartEndLineIndex =
 		matchPart.type === "text" ? matchPart.lineIndex : matchPart.endLineIndex;
 
-	const startLineIndex = offsetStartLineIndex + matchPartStartLineIndex;
-	const endLineIndex = startLineIndex + matchPartEndLineIndex;
+	const matchPartLength =
+		matchPart.type === "text" ? matchPart.text.length : matchPart.value.length;
 
-	const startColumnIndex = matchPart.startColumnIndex + offsetColumnIndex;
+	const startLineIndex = matchPartStartLineIndex - offsetStartLineIndex;
+	const endLineIndex = matchPartEndLineIndex - startLineIndex;
+
+	const startColumnIndex =
+		matchPartStartLineIndex === 0
+			? offsetColumnIndex - matchPart.startColumnIndex
+			: matchPart.startColumnIndex;
+
 	const endColumnIndex =
 		startLineIndex === endLineIndex
-			? startColumnIndex +
-			  (matchPart.endColumnIndex - matchPart.startColumnIndex)
+			? startColumnIndex + matchPartLength
 			: matchPart.endColumnIndex;
 
 	if (matchPart.type === "text") {
 		return {
-			...matchPart,
+			type: "text",
+			text: matchPart.text,
 			lineIndex: startLineIndex,
 			startColumnIndex,
 			endColumnIndex,
@@ -40,7 +44,9 @@ export function matchPartWithOffset<
 	}
 
 	return {
-		...matchPart,
+		type: "variable",
+		name: matchPart.name,
+		value: matchPart.value,
 		startLineIndex,
 		startColumnIndex,
 		endLineIndex,

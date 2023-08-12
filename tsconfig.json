@@ -1,6 +1,16 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "Node",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "include": [
+        "src/*"
+      ],
+      "exclude": [
+        "*.test.ts"
+      ]
+    },
+  },
 }

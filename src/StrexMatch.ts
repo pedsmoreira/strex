@@ -37,13 +37,13 @@ export class StrexMatch<TVar extends string> {
 		return this.partMatches[this.partMatches.length - 1];
 	}
 
+	/**
+	 * Alias for `offsetLineIndex`
+	 *
+	 * The first match part always has line index 0
+	 */
 	get startLineIndex(): number {
-		const startLineIndex =
-			this.firstPartMatch.type === "text"
-				? this.firstPartMatch.lineIndex
-				: this.firstPartMatch.startLineIndex;
-
-		return this.offsetLineIndex + startLineIndex;
+		return this.offsetLineIndex;
 	}
 
 	get endLineIndex(): number {
@@ -57,8 +57,13 @@ export class StrexMatch<TVar extends string> {
 		return this.offsetLineIndex + endLineIndex;
 	}
 
+	/**
+	 * Alias for `offsetColumnIndex`
+	 *
+	 * The first match part always has column index 0
+	 */
 	get startColumnIndex(): number {
-		return this.offsetColumnIndex + this.firstPartMatch.startColumnIndex;
+		return this.offsetColumnIndex;
 	}
 
 	get endColumnIndex(): number {

@@ -1,21 +1,38 @@
 import { expect, it } from "vitest";
-import { splitByLine, StrexMatch } from "../strex";
+import { StrexMatch } from "../StrexMatch";
 import { replaceMatches } from "./replace-matches";
+import { splitByLine } from "../line-utils/split-by-line";
 
-it("matches case #1", () => {
-	const contents = `Sun is shining in the sky, there ain't a cloud in sight.`;
+it("replaces matches", () => {
+	const contents = "Hello world from the moon";
 	const lines = splitByLine(contents);
 
-	// "shining @{{ where }},"
+	// "Hello @{{ what }} "
 	const match = new StrexMatch({
 		lines,
 		partMatches: [
 			{
 				type: "text",
-				text: "shinin in the sky,",
+				text: "Hello ",
 				lineIndex: 0,
-				startColumnIndex: 7,
-				endColumnIndex: 26,
+				startColumnIndex: 0,
+				endColumnIndex: 6,
+			},
+			{
+				type: "variable",
+				name: "what",
+				value: "world",
+				startLineIndex: 0,
+				endLineIndex: 0,
+				startColumnIndex: 6,
+				endColumnIndex: 11,
+			},
+			{
+				type: "text",
+				text: ",",
+				lineIndex: 0,
+				startColumnIndex: 11,
+				endColumnIndex: 12,
 			},
 		],
 		offsetLineIndex: 0,
@@ -25,10 +42,8 @@ it("matches case #1", () => {
 	const replacement = replaceMatches({
 		contents,
 		matches: [match],
-		replace: () => "mooing like a cow!",
+		replace: () => "Hello replacement ",
 	});
 
-	expect(replacement).toEqual(
-		`Sun is mooing like a cow! there ain't a cloud in sight.`,
-	);
+	expect(replacement).toEqual("Hello replacement from the moon");
 });

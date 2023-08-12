@@ -18,9 +18,7 @@ export function matchAllPatternsInLines<T extends string>({
 	let startLineIndex = 0;
 	let startColumnIndex = 0;
 
-	while (true) {
-		if (startLineIndex > lines.length - 1) break;
-
+	while (startLineIndex < lines.length) {
 		loops++;
 		if (loops > lines.length + pattern.patternParts.length) {
 			throw new Error("infinite loop!");

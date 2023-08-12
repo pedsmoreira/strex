@@ -2,8 +2,8 @@ type Args = {
 	lines: string[];
 	startLineIndex: number;
 	startColumnIndex: number;
-	endLineIndex: number;
-	endColumnIndex: number;
+	endLineIndex?: number;
+	endColumnIndex?: number;
 };
 
 export function sliceLines({
@@ -13,7 +13,11 @@ export function sliceLines({
 	endLineIndex,
 	endColumnIndex,
 }: Args): string[] {
-	let linesIncluded = lines.slice(startLineIndex, endLineIndex + 1);
+	if (typeof endLineIndex === "undefined") endLineIndex = lines.length - 1;
+	if (typeof endColumnIndex === "undefined")
+		endColumnIndex = lines[endLineIndex].length;
+
+	const linesIncluded = lines.slice(startLineIndex, endLineIndex + 1);
 
 	linesIncluded[linesIncluded.length - 1] = linesIncluded[
 		linesIncluded.length - 1

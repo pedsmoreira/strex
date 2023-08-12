@@ -4,6 +4,7 @@ import { linesForEndOn } from "../line-utils/lines-for-end-on";
 import { matchTuplesInLines } from "./match-tuples-in-lines";
 import { matchPartWithOffset } from "./match-part-with-offset";
 import { getTuplesForParts } from "../pattern/get-tuples-for-parts";
+import { sliceLines } from "../line-utils/slice-lines";
 
 type Args = {
 	lines: string[];
@@ -13,63 +14,72 @@ type Args = {
 export function matchPatternInLines<T extends string>({
 	lines: originalLines,
 	pattern,
-}: Args): StrexPartMatch<T>[] | undefined {
+}: Args): StrexPartMatch<T>[] {
 	const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd, endOn } =
 		pattern;
 
-	const linesBeforeEnd = linesForEndOn({ lines: originalLines, endOn });
+	const slicedLines = linesForEndOn({ lines: originalLines, endOn });
 
 	const tuples = getTuplesForParts(patternParts);
 	const matchParts: StrexPartMatch<T>[] = [];
 
-	let startLineIndex = 0;
-	let startColumnIndex = 0;
-
 	for (let i = 0; i < tuples.length; i++) {
+		if (slicedLines.length === 0) return [];
+
 		const tuple = tuples[i];
 
-		const [firstLine, ...otherLines] = linesBeforeEnd.slice(startLineIndex);
-		const slicedFirstLine = firstLine.substring(startColumnIndex);
+		const lastMatchPart =
+			matchParts.length > 0 ? matchParts[matchParts.length - 1] : undefined;
+
+		const lastMatchEndLineIndex = lastMatchPart
+			? lastMatchPart.type === "text"
+				? lastMatchPart.lineIndex
+				: lastMatchPart.endLineIndex
+			: 0;
+
+		const [firstLine, ...otherLines] = sliceLines({
+			lines: slicedLines,
+			startLineIndex: lastMatchEndLineIndex,
+			startColumnIndex: lastMatchPart ? lastMatchPart.endColumnIndex : 0,
+		});
+
+		const slicedFirstLine = lastMatchPart
+			? firstLine.substring(lastMatchPart.endColumnIndex)
+			: firstLine;
+
+		// The offsets are incorrect - the Match has an offset,
+		// each part's index is relative to the start of the match
+		//
+		// therefore, the first part always has index column 0
+		// and index line 0
+
 		const lines = [slicedFirstLine, ...otherLines];
 
 		const isFirstTuple = i === 0;
 		const isLastTuple = i === tuples.length - 1;
 
-		const tupleMatchParts = matchTuplesInLines<T>({
+		const tupleMatches = matchTuplesInLines<T>({
 			lines,
 			tuple,
 			mustMatchAtLineStart: mustMatchAtLineStart || !isFirstTuple,
 			mustMatchAtLineEnd: mustMatchAtLineEnd && isLastTuple,
-		})?.map((matchPart) =>
+		});
+
+		if (tupleMatches.length === 0) return [];
+
+		const firstTupleMatch = tupleMatches[0];
+		const offsetTupleMatches = tupleMatches.map((matchPart) =>
 			matchPartWithOffset({
 				matchPart,
-				offsetStartLineIndex: startLineIndex,
-				offsetColumnIndex: startColumnIndex,
+				offsetStartLineIndex:
+					firstTupleMatch.type === "text"
+						? firstTupleMatch.lineIndex
+						: firstTupleMatch.startLineIndex,
+				offsetColumnIndex: firstTupleMatch.startColumnIndex,
 			}),
 		);
 
-		if (!tupleMatchParts) return undefined;
-
-		const lastTupleMatch = tupleMatchParts[tupleMatchParts.length - 1];
-
-		const endLineIndex =
-			lastTupleMatch.type === "text"
-				? lastTupleMatch.lineIndex
-				: lastTupleMatch.endLineIndex;
-
-		// Move the iterator to the end of the match
-		const isEndOfLine =
-			lastTupleMatch.endColumnIndex === originalLines[endLineIndex].length - 1;
-
-		if (isEndOfLine) {
-			startLineIndex = endLineIndex + 1;
-			startColumnIndex = 0;
-		} else {
-			startLineIndex = endLineIndex;
-			startColumnIndex = lastTupleMatch.endColumnIndex;
-		}
-
-		matchParts.push(...tupleMatchParts);
+		matchParts.push(...offsetTupleMatches);
 	}
 
 	return matchParts;

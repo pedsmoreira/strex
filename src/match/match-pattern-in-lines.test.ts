@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { getPartsInPatternString } from "../pattern/get-parts-in-pattern-string";
-import { StrexPattern } from "../strex";
+import { StrexPattern } from "../types/strex-pattern";
 import { matchPatternInLines } from "./match-pattern-in-lines";
 
 it("matches a pattern across lines", () => {

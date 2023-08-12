@@ -1,6 +1,6 @@
 import { matchAllPatternsInLines } from "./match/match-all-patterns-in-lines";
 import { getPartsInPatternString } from "./pattern/get-parts-in-pattern-string";
-import { splitByLine } from "./strex";
+import { splitByLine } from "./line-utils/split-by-line";
 import { StrexResult } from "./StrexResult";
 import { StrexOptions } from "./types/strex-options";
 import { StrexPattern } from "./types/strex-pattern";

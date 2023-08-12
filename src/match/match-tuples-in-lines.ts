@@ -18,7 +18,7 @@ export function matchTuplesInLines<TVar extends string>({
 	tuple,
 	mustMatchAtLineStart,
 	mustMatchAtLineEnd,
-}: Args): StrexPartMatch<TVar>[] | undefined {
+}: Args): StrexPartMatch<TVar>[] {
 	const [patternVariablePart, patternTextPart] = tuple;
 
 	/*
@@ -63,8 +63,8 @@ export function matchTuplesInLines<TVar extends string>({
 		return true;
 	});
 
-	if (matchTextLineIndex > 0 && !patternVariablePart) return undefined;
-	if (matchTextLineIndex === -1) return undefined;
+	if (matchTextLineIndex > 0 && !patternVariablePart) return [];
+	if (matchTextLineIndex === -1) return [];
 
 	const matchTextLine = lines[matchTextLineIndex];
 	const textStartIndex = matchTextLine.indexOf(patternTextPart.text);

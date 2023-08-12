@@ -14,7 +14,7 @@ export function replaceVariablesInMatch<T extends string>({
 
 		if (part.type === "variable") {
 			const replacement = variables[part.name as T];
-			return replacement === undefined ? part.value : replacement;
+			return typeof replacement === "undefined" ? part.value : replacement;
 		}
 	});
 
