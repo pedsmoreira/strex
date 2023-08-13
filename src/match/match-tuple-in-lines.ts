@@ -13,7 +13,7 @@ type Args = {
 	mustMatchAtLineEnd: boolean;
 };
 
-export function matchTuplesInLines<TVar extends string>({
+export function matchTupleInLines<TVar extends string>({
 	lines,
 	tuple,
 	mustMatchAtLineStart,
@@ -39,7 +39,7 @@ export function matchTuplesInLines<TVar extends string>({
 			startLineIndex: 0,
 			startColumnIndex: 0,
 			endLineIndex: lines.length - 1,
-			endColumnIndex: lastLine.length - 1,
+			endColumnIndex: lastLine.length,
 		};
 
 		return [matchVariablePart];

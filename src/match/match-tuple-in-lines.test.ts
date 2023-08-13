@@ -1,9 +1,9 @@
 import { expect, it } from "vitest";
-import { matchTuplesInLines } from "./match-tuples-in-lines";
+import { matchTupleInLines } from "./match-tuple-in-lines";
 
 it("returns match parts given a tuple with text only", () => {
 	expect(
-		matchTuplesInLines({
+		matchTupleInLines({
 			lines: [`import oneReducer from '../redux/one';`],
 			tuple: [undefined, { type: "text", text: "import " }],
 			mustMatchAtLineStart: true,
@@ -22,7 +22,7 @@ it("returns match parts given a tuple with text only", () => {
 
 it("returns match parts given a tuple with variable + text", () => {
 	expect(
-		matchTuplesInLines({
+		matchTupleInLines({
 			lines: [`oneReducer from '../redux/one';`],
 			tuple: [
 				{ type: "variable", name: "imports" },

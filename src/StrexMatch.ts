@@ -15,6 +15,7 @@ export class StrexMatch<TVar extends string> {
 		offsetLineIndex: number;
 		offsetColumnIndex: number;
 	}) {
+		this.lines = data.lines;
 		this.partMatches = data.partMatches;
 		this.offsetLineIndex = data.offsetLineIndex;
 		this.offsetColumnIndex = data.offsetColumnIndex;

@@ -2,14 +2,14 @@ import { StrexPartMatch } from "../types/strex-part-match";
 
 type Args<TVar extends string> = {
 	matchPart: StrexPartMatch<TVar>;
-	offsetLineIndex: number;
-	offsetColumnIndex: number;
+	lineIndex: number;
+	columnIndex: number;
 };
 
-export function matchPartWithOffset<TVar extends string,>({
+export function matchPartRelativetoPosition<TVar extends string,>({
 	matchPart,
-	offsetLineIndex,
-	offsetColumnIndex,
+	lineIndex,
+	columnIndex,
 }: Args<TVar>): StrexPartMatch<TVar> {
 	const matchPartStartLineIndex =
 		matchPart.type === "text" ? matchPart.lineIndex : matchPart.startLineIndex;
@@ -20,12 +20,12 @@ export function matchPartWithOffset<TVar extends string,>({
 	const matchPartLength =
 		matchPart.type === "text" ? matchPart.text.length : matchPart.value.length;
 
-	const startLineIndex = matchPartStartLineIndex + offsetLineIndex;
-	const endLineIndex = matchPartEndLineIndex + offsetLineIndex;
+	const startLineIndex = matchPartStartLineIndex - lineIndex;
+	const endLineIndex = matchPartEndLineIndex - lineIndex;
 
 	const startColumnIndex =
 		matchPartStartLineIndex === 0
-			? offsetColumnIndex + matchPart.startColumnIndex
+			? columnIndex - matchPart.startColumnIndex
 			: matchPart.startColumnIndex;
 
 	const endColumnIndex =

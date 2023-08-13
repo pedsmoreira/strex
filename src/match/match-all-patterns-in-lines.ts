@@ -1,6 +1,7 @@
 import { StrexMatch } from "../StrexMatch";
 import { StrexPattern } from "../types/strex-pattern";
 import { matchPatternInLines } from "./match-pattern-in-lines";
+import { matchPartRelativetoPosition } from "../match/match-part-relative-to-position";
 
 type Args = {
 	lines: string[];
@@ -29,17 +30,33 @@ export function matchAllPatternsInLines<T extends string>({
 		const theLines = [slicedFirstLine, ...otherLines];
 
 		const parts = matchPatternInLines({ lines: theLines, pattern });
-
-		if (!parts?.length) {
+		if (parts.length === 0) {
 			startLineIndex++;
 			continue;
 		}
 
+		const firstPart = parts[0];
+
+		const partsLineIndex =
+			firstPart.type === "text"
+				? firstPart.lineIndex
+				: firstPart.startLineIndex;
+
+		const partsColumnIndex = firstPart.startColumnIndex;
+
+		const offsetParts = parts.map((matchPart) =>
+			matchPartRelativetoPosition({
+				matchPart,
+				lineIndex: partsLineIndex,
+				columnIndex: partsColumnIndex,
+			}),
+		);
+
 		const match = new StrexMatch({
 			lines: theLines,
-			partMatches: parts,
-			offsetLineIndex: startLineIndex,
-			offsetColumnIndex: startColumnIndex,
+			partMatches: offsetParts,
+			offsetLineIndex: startLineIndex + partsLineIndex,
+			offsetColumnIndex: startColumnIndex + partsColumnIndex,
 		});
 
 		matches.push(match);
