@@ -53,7 +53,7 @@ export function getPartsInPatternString<TVar extends string,>({
 		throw new Error(
 			`Invalid variables provided. Expected ${variables.join(
 				", ",
-			)}; Not found: ${remainingVariables.values}`,
+			)}; Not found: ${Array.from(remainingVariables).join(",")}`,
 		);
 
 	return parts;

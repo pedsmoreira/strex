@@ -82,8 +82,8 @@ export class StrexMatch<TVar extends string> {
 	get matchedLines(): string[] {
 		return sliceLines({
 			lines: this.lines,
-			startLineIndex: 0,
-			startColumnIndex: 0,
+			startLineIndex: this.startLineIndex,
+			startColumnIndex: this.startColumnIndex,
 			endLineIndex: this.endLineIndex,
 			endColumnIndex: this.endColumnIndex,
 		});
