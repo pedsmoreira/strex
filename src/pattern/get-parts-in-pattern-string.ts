@@ -3,20 +3,6 @@ import { StrexPart } from "../types/strex-part";
 const PATTERN_START = "@{{";
 const PATTERN_END = "}}";
 
-function assertNameInVariables<TVar extends string>(
-	name: string,
-	variables: TVar[],
-): TVar {
-	const isValid = (variables as string[]).includes(name);
-
-	if (!isValid)
-		throw new Error(
-			`${name} is not listed as a variable: [${variables.join(",")}]`,
-		);
-
-	return name as TVar;
-}
-
 type Args<TVar extends string> = {
 	patternString: string;
 	variables: TVar[];
@@ -47,16 +33,28 @@ export function getPartsInPatternString<TVar extends string,>({
 			});
 		}
 
-		const name = assertNameInVariables(
-			remaining.substring(matchStart + PATTERN_START.length, matchEnd).trim(),
-			variables,
-		);
+		const name = remaining
+			.substring(matchStart + PATTERN_START.length, matchEnd)
+			.trim() as TVar;
 
 		parts.push({ type: "variable", name });
 
 		remaining = remaining.substring(matchEnd + PATTERN_END.length);
 		if (!remaining) break;
 	}
+
+	// Check that the variable names are correct
+	const remainingVariables = new Set([...variables]);
+	parts.forEach((part) => {
+		if (part.type === "variable") remainingVariables.delete(part.name);
+	});
+
+	if (remainingVariables.size > 0)
+		throw new Error(
+			`Invalid variables provided. Expected ${variables.join(
+				", ",
+			)}; Not found: ${remainingVariables.values}`,
+		);
 
 	return parts;
 }
