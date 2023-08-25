@@ -1,7 +1,26 @@
 import { joinLines, strex } from "../src/strex";
 import { test, expect } from "vitest";
 
-test("simple pattern", () => {
+test("text pattern", () => {
+	const result = strex({
+		text: joinLines([
+			"hello world from the moon",
+			"hello world from the stars",
+		]),
+		patternString: "hello world",
+		variables: [],
+	});
+
+	expect(result.matches.length).toEqual(2);
+
+	expect(result.matches[0].text).toEqual("hello world");
+	expect(result.matches[0].variables).toEqual({});
+
+	expect(result.matches[1].text).toEqual("hello world");
+	expect(result.matches[1].variables).toEqual({});
+});
+
+test("multiple variables in a single line", () => {
 	const result = strex({
 		text: joinLines([
 			"I have one apple here",
@@ -54,16 +73,30 @@ test("multiline pattern", () => {
 	expect(result.matches[0].text).toEqual('import { a, b, c } from "letters";');
 });
 
-test.skip("tab identation", () => {});
+test.skip("tab identation", () => {
+	// TODO
+});
 
-test.skip("space identation", () => {});
+test.skip("space identation", () => {
+	// TODO
+});
 
-test.skip("matches start of line", () => {});
+test.skip("matches start of line", () => {
+	// TODO
+});
 
-test.skip("matches end of line", () => {});
+test.skip("matches end of line", () => {
+	// TODO
+});
 
-test.skip("matches start and end of line", () => {});
+test.skip("matches start and end of line", () => {
+	// TODO
+});
 
-test.skip("matches start and end of line with tab identation", () => {});
+test.skip("matches start and end of line with tab identation", () => {
+	// TODO
+});
 
-test.skip("matches start and end of line with space identation", () => {});
+test.skip("matches start and end of line with space identation", () => {
+	// TODO
+});

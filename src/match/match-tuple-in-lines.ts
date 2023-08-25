@@ -4,11 +4,11 @@ import {
 	StrexTextPartMatch,
 	StrexVariablePartMatch,
 } from "../types/strex-part-match";
-import { StrexPartTuple } from "../types/strex-part-tuple";
+import { StrexPatternPartTuple } from "../types/strex-pattern-part-tuple";
 
 type Args<TVar extends string> = {
 	lines: string[];
-	tuple: StrexPartTuple<TVar>;
+	tuple: StrexPatternPartTuple<TVar>;
 	mustMatchAtLineStart: boolean;
 	mustMatchAtLineEnd: boolean;
 };

@@ -1,12 +1,16 @@
-import { StrexPart, StrexVariablePart } from "../types/strex-part";
-import { StrexPartTuple } from "../types/strex-part-tuple";
+import {
+	StrexPatternPart,
+	StrexPatternVariablePart,
+} from "../types/strex-pattern-part";
+import { StrexPatternPartTuple } from "../types/strex-pattern-part-tuple";
 
 export function getTuplesForParts<TVar extends string>(
-	patternParts: StrexPart<TVar>[],
-): StrexPartTuple<TVar>[] {
-	const tuples: StrexPartTuple<TVar>[] = [];
+	patternParts: StrexPatternPart<TVar>[],
+): StrexPatternPartTuple<TVar>[] {
+	const tuples: StrexPatternPartTuple<TVar>[] = [];
 
-	let patternVariablePart: StrexVariablePart<TVar> | undefined = undefined;
+	let patternVariablePart: StrexPatternVariablePart<TVar> | undefined =
+		undefined;
 
 	for (let i = 0; i < patternParts.length; i++) {
 		const part = patternParts[i];

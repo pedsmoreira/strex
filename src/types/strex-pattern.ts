@@ -1,8 +1,8 @@
 import { StrexMatchEndOn } from "./strex-match-end-on";
-import { StrexPart } from "./strex-part";
+import { StrexPatternPart } from "./strex-pattern-part";
 
 export type StrexPattern<TVar extends string> = {
-	patternParts: StrexPart<TVar>[];
+	patternParts: StrexPatternPart<TVar>[];
 	endOn: StrexMatchEndOn;
 	mustMatchAtLineStart: boolean;
 	mustMatchAtLineEnd: boolean;

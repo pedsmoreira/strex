@@ -6,7 +6,7 @@ import { matchAllPatternsInLines } from "./match/match-all-patterns-in-lines";
 import { getPartsInPatternString } from "./pattern/get-parts-in-pattern-string";
 import { StrexMatchEndOn } from "./types/strex-match-end-on";
 import { StrexOptions } from "./types/strex-options";
-import { StrexPart } from "./types/strex-part";
+import { StrexPatternPart } from "./types/strex-pattern-part";
 import { StrexPattern } from "./types/strex-pattern";
 
 export function strex<TVar extends string>({
@@ -37,7 +37,7 @@ export {
 	StrexMatch,
 	StrexMatchEndOn,
 	StrexOptions,
-	StrexPart,
+	StrexPatternPart as StrexPart,
 	StrexPattern,
 	StrexResult,
 	joinLines,

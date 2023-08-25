@@ -1,4 +1,5 @@
-import { StrexPart } from "../types/strex-part";
+import { StrexPatternPart } from "../types/strex-pattern-part";
+import { assertPatternPartsVariablesValidity } from "./assert-pattern-parts-variables-validity";
 
 const PATTERN_START = "@{{";
 const PATTERN_END = "}}";
@@ -11,10 +12,10 @@ type Args<TVar extends string> = {
 export function getPartsInPatternString<TVar extends string,>({
 	patternString,
 	variables,
-}: Args<TVar>): StrexPart<TVar>[] {
+}: Args<TVar>): StrexPatternPart<TVar>[] {
 	let remaining = patternString.replace(/\n/g, "");
 
-	const parts: StrexPart<TVar>[] = [];
+	const parts: StrexPatternPart<TVar>[] = [];
 
 	while (true) {
 		const matchStart = remaining.indexOf(PATTERN_START);
@@ -43,22 +44,7 @@ export function getPartsInPatternString<TVar extends string,>({
 		if (!remaining) break;
 	}
 
-	// Check that the variable names are correct
-	const remainingVariables = new Set([...variables]);
-	const missingVariable = parts.some((part) => {
-		if (part.type !== "variable") return;
-
-		if (!remainingVariables.has(part.name)) return true;
-		remainingVariables.delete(part.name);
-	});
-
-	if (missingVariable || remainingVariables.size > 0) {
-		throw new Error(
-			`Invalid variables provided. Expected ${variables.join(
-				", ",
-			)}; Not found: ${Array.from(remainingVariables).join(",")}`,
-		);
-	}
+	assertPatternPartsVariablesValidity({ variables, parts });
 
 	return parts;
 }
