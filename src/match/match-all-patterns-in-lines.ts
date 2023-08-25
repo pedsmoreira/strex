@@ -1,78 +1,68 @@
 import { StrexMatch } from "../StrexMatch";
+import { sliceLines } from "../line-utils/slice-lines";
 import { StrexPattern } from "../types/strex-pattern";
+import { createMatchFromParts } from "./create-match-from-parts";
 import { matchPatternInLines } from "./match-pattern-in-lines";
-import { matchPartRelativetoPosition } from "../match/match-part-relative-to-position";
 
-type Args = {
+type Args<T extends string> = {
 	lines: string[];
 	pattern: StrexPattern;
+	recursion?: {
+		originalLines: string[];
+		matches: StrexMatch<T>[];
+		offsetLineIndex: number;
+		offsetColumnIndex: number;
+	};
 };
 
 export function matchAllPatternsInLines<T extends string>({
 	lines,
 	pattern,
-}: Args): StrexMatch<T>[] {
-	const matches: StrexMatch<T>[] = [];
+	recursion,
+}: Args<T>): StrexMatch<T>[] {
+	if (lines.filter(Boolean).length === 0) return recursion?.matches || [];
 
-	let loops = 0;
+	const originalLines = recursion?.originalLines || lines;
+	const parts = matchPatternInLines({ lines, pattern });
 
-	let startLineIndex = 0;
-	let startColumnIndex = 0;
-
-	while (startLineIndex < lines.length) {
-		loops++;
-		if (loops > lines.length + pattern.patternParts.length) {
-			throw new Error("infinite loop!");
-		}
-
-		const [firstLine, ...otherLines] = lines.slice(startLineIndex);
-		const slicedFirstLine = firstLine.substring(startColumnIndex);
-		const theLines = [slicedFirstLine, ...otherLines];
-
-		const parts = matchPatternInLines({ lines: theLines, pattern });
-		if (parts.length === 0) {
-			startLineIndex++;
-			continue;
-		}
-
-		const firstPart = parts[0];
-
-		const partsLineIndex =
-			firstPart.type === "text"
-				? firstPart.lineIndex
-				: firstPart.startLineIndex;
-
-		const partsColumnIndex = firstPart.startColumnIndex;
-
-		const offsetParts = parts.map((matchPart) =>
-			matchPartRelativetoPosition({
-				matchPart,
-				lineIndex: partsLineIndex,
-				columnIndex: partsColumnIndex,
-			}),
-		);
-
-		const match = new StrexMatch({
-			lines: theLines,
-			partMatches: offsetParts,
-			offsetLineIndex: startLineIndex + partsLineIndex,
-			offsetColumnIndex: startColumnIndex + partsColumnIndex,
+	if (parts.length === 0) {
+		return matchAllPatternsInLines({
+			lines: lines.slice(1),
+			pattern,
+			recursion: {
+				originalLines,
+				matches: recursion?.matches ?? [],
+				offsetLineIndex: (recursion?.offsetLineIndex ?? 0) + 1,
+				offsetColumnIndex: 0,
+			},
 		});
-
-		matches.push(match);
-
-		// Move the iterator to the end of the match
-		const isEndOfLine =
-			match.endColumnIndex === lines[match.endLineIndex].length;
-
-		if (isEndOfLine) {
-			startLineIndex = match.endLineIndex + 1;
-			startColumnIndex = 0;
-		} else {
-			startLineIndex = match.endLineIndex;
-			startColumnIndex = match.endColumnIndex;
-		}
 	}
 
-	return matches;
+	const match = createMatchFromParts({
+		lines: originalLines,
+		parts,
+		offsetLineIndex: recursion?.offsetLineIndex ?? 0,
+		offsetColumnIndex: recursion?.offsetColumnIndex ?? 0,
+	});
+
+	const lastPart = parts[parts.length - 1];
+	const endLineIndex =
+		lastPart.type === "text" ? lastPart.lineIndex : lastPart.endLineIndex;
+
+	const remainingLines = sliceLines({
+		lines,
+		startLineIndex: endLineIndex,
+		startColumnIndex: lastPart.endColumnIndex,
+	});
+
+	return matchAllPatternsInLines({
+		lines: remainingLines,
+		pattern,
+		recursion: {
+			originalLines,
+			matches: [...(recursion?.matches ?? []), match],
+			offsetLineIndex: match.endLineIndex,
+			offsetColumnIndex: match.endColumnIndex,
+		},
+	});
 }

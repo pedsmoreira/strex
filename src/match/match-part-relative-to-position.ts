@@ -6,7 +6,7 @@ type Args<TVar extends string> = {
 	columnIndex: number;
 };
 
-export function matchPartRelativetoPosition<TVar extends string,>({
+export function matchPartRelativetoPosition<TVar extends string>({
 	matchPart,
 	lineIndex,
 	columnIndex,
@@ -24,8 +24,8 @@ export function matchPartRelativetoPosition<TVar extends string,>({
 	const endLineIndex = matchPartEndLineIndex - lineIndex;
 
 	const startColumnIndex =
-		matchPartStartLineIndex === 0
-			? columnIndex - matchPart.startColumnIndex
+		startLineIndex === 0
+			? matchPart.startColumnIndex - columnIndex
 			: matchPart.startColumnIndex;
 
 	const endColumnIndex =
