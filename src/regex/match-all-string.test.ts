@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { matchAllString } from "./match-all-string";
 
-it("matches all strings", () => {
+test("multiple matches", () => {
 	expect(
 		matchAllString({
 			haystack: "Hello world from another world",

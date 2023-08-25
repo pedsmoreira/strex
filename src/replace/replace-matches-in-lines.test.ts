@@ -1,9 +1,8 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { StrexMatch } from "../StrexMatch";
 import { replaceMatchesInLines } from "./replace-matches-in-lines";
-import { splitByLine } from "../line-utils/split-by-line";
 
-it("replaces matches", () => {
+test("replace with another string", () => {
 	const lines = ["Hello world from the moon"];
 
 	// "Hello @{{ what }} "

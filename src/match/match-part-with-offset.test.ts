@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { matchPartWithOffset } from "./match-part-with-offset";
 
-it("adds column offset to first line", () => {
+test("column offset to first line", () => {
 	const adjustedMatch = matchPartWithOffset({
 		matchPart: {
 			type: "text",
@@ -23,7 +23,7 @@ it("adds column offset to first line", () => {
 	});
 });
 
-it("adds only line offset when not the first line", () => {
+test("line offset when not the first line", () => {
 	const adjustedMatch = matchPartWithOffset({
 		matchPart: {
 			type: "text",

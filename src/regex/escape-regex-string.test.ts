@@ -1,6 +1,6 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { escapeRegexString } from "./escape-regex-string";
 
-it("escapes a regex string", () => {
+test("escapes ^ and $", () => {
 	expect(escapeRegexString("^ and $")).toEqual("\\^ and \\$");
 });

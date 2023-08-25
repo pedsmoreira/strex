@@ -1,8 +1,8 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { StrexMatch } from "../StrexMatch";
 import { matchAllPatternsInLines } from "./match-all-patterns-in-lines";
 
-it("matches all patterns ending on a single line", () => {
+test("single line", () => {
 	const lines = ["#1; ...; #2;"];
 
 	expect(
@@ -83,4 +83,6 @@ it("matches all patterns ending on a single line", () => {
 	]);
 });
 
-// it("matches all patterns in multiple lines", () => {});
+test.skip("multiple lines", () => {
+	// TODO
+});

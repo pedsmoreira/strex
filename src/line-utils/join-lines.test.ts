@@ -1,6 +1,6 @@
-import { it, expect } from "vitest";
+import { test, expect } from "vitest";
 import { joinLines } from "./join-lines";
 
-it("join lines with \n", () => {
+test("join lines", () => {
 	expect(joinLines(["one", "two"])).toEqual("one\ntwo");
 });

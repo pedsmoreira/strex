@@ -45,16 +45,20 @@ export function getPartsInPatternString<TVar extends string,>({
 
 	// Check that the variable names are correct
 	const remainingVariables = new Set([...variables]);
-	parts.forEach((part) => {
-		if (part.type === "variable") remainingVariables.delete(part.name);
+	const missingVariable = parts.some((part) => {
+		if (part.type !== "variable") return;
+
+		if (!remainingVariables.has(part.name)) return true;
+		remainingVariables.delete(part.name);
 	});
 
-	if (remainingVariables.size > 0)
+	if (missingVariable || remainingVariables.size > 0) {
 		throw new Error(
 			`Invalid variables provided. Expected ${variables.join(
 				", ",
 			)}; Not found: ${Array.from(remainingVariables).join(",")}`,
 		);
+	}
 
 	return parts;
 }

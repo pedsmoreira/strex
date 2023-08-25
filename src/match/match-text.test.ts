@@ -1,8 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import { matchText } from "./match-text";
 
 describe("match anywhere", () => {
-	it("matches at the start", () => {
+	test("text at the start", () => {
 		expect(
 			matchText({
 				needle: "hello",
@@ -16,7 +16,7 @@ describe("match anywhere", () => {
 		});
 	});
 
-	it("matches in the middle", () => {
+	test("text in the middle", () => {
 		expect(
 			matchText({
 				needle: " from ",
@@ -30,7 +30,7 @@ describe("match anywhere", () => {
 		});
 	});
 
-	it("matches at the end", () => {
+	test("text at the end", () => {
 		expect(
 			matchText({
 				needle: "moon",
@@ -46,7 +46,7 @@ describe("match anywhere", () => {
 });
 
 describe("must match at line start", () => {
-	it("matches text at the start", () => {
+	test("text at the start", () => {
 		expect(
 			matchText({
 				needle: "hello",
@@ -60,7 +60,7 @@ describe("must match at line start", () => {
 		});
 	});
 
-	it("does not match text is present but not at the start", () => {
+	test("text not at the start", () => {
 		expect(
 			matchText({
 				needle: " from ",
@@ -73,7 +73,7 @@ describe("must match at line start", () => {
 });
 
 describe("must match at line end", () => {
-	it("matches text at the end", () => {
+	test("text at the end", () => {
 		expect(
 			matchText({
 				needle: "moon",
@@ -87,7 +87,7 @@ describe("must match at line end", () => {
 		});
 	});
 
-	it("does not match if text is not at the end", () => {
+	test("text not at the end", () => {
 		expect(
 			matchText({
 				needle: "hello",

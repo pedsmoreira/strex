@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { isVariablePartMatch } from "./is-variable-part-match";
 
-it("returns true for a varaible part match", () => {
+test("variable part match", () => {
 	expect(
 		isVariablePartMatch({
 			type: "variable",
@@ -15,7 +15,7 @@ it("returns true for a varaible part match", () => {
 	).toBeTruthy();
 });
 
-it("returns false for a text part match", () => {
+test("text part match", () => {
 	expect(
 		isVariablePartMatch({
 			type: "text",

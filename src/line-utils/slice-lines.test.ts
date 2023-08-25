@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { sliceLines } from "./slice-lines";
 
-it("slices within a single line", () => {
+test("within single line", () => {
 	const slice = sliceLines({
 		lines: ["Line one", "The line two", "A line three"],
 		startLineIndex: 1,
@@ -13,7 +13,7 @@ it("slices within a single line", () => {
 	expect(slice).toEqual(["two"]);
 });
 
-it("slices between lines", () => {
+test("between lines", () => {
 	const slice = sliceLines({
 		lines: ["Line one", "The line two", "A line three"],
 		startLineIndex: 1,
@@ -25,14 +25,14 @@ it("slices between lines", () => {
 	expect(slice).toEqual(["line two", "A line"]);
 });
 
-it("slices line until the end when end line when it is not provided", () => {
+test.skip("slices line until the end when end line when it is not provided", () => {
 	// TODO
 });
 
-it("removes first line if it is empty because the slice ended at the end of the previous one", () => {
+test.skip("removes first line if it is empty because the slice ended at the end of the previous one", () => {
 	// TODO
 });
 
-it("does not remove first line whe nempty if it was provided empty", () => {
+test.skip("does not remove first line whe nempty if it was provided empty", () => {
 	// TODO
 });

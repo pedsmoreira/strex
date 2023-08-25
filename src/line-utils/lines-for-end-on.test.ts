@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { linesForEndOn } from "./lines-for-end-on";
 
 const lines = [
@@ -9,11 +9,11 @@ const lines = [
 	"more",
 ];
 
-it("returns all lines for endOn=pattern", () => {
+test("endOn=pattern", () => {
 	expect(linesForEndOn({ lines, endOn: { type: "pattern" } })).toEqual(lines);
 });
 
-it("returns proper lines  for endOn=enclosing", () => {
+test("endOn=enclosing", () => {
 	expect(
 		linesForEndOn({
 			lines,
@@ -27,7 +27,7 @@ it("returns proper lines  for endOn=enclosing", () => {
 	]);
 });
 
-it("returns all lines for endOn=tab-spacing", () => {
+test("endOn=tab-spacing", () => {
 	expect(linesForEndOn({ lines, endOn: { type: "tab-spacing" } })).toEqual([
 		"function helloWorld() {",
 		"  // some comment with spaces",
@@ -35,7 +35,7 @@ it("returns all lines for endOn=tab-spacing", () => {
 	]);
 });
 
-it("returns all lines for endOn=single-line", () => {
+test("endOn=single-line", () => {
 	expect(linesForEndOn({ lines, endOn: { type: "single-line" } })).toEqual(
 		lines.slice(0, 1),
 	);

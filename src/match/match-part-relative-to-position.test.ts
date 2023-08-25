@@ -1,7 +1,7 @@
 import { matchPartRelativetoPosition } from "./match-part-relative-to-position";
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 
-it("corrects match using offset for match part on the same line", () => {
+test("match part on the same line", () => {
 	const adjustedMatch = matchPartRelativetoPosition({
 		matchPart: {
 			type: "text",
@@ -23,7 +23,7 @@ it("corrects match using offset for match part on the same line", () => {
 	});
 });
 
-it("corrects match using offset for match part on the same line and columnIndex", () => {
+test("match part on the same line and columnIndex", () => {
 	const adjustedMatch = matchPartRelativetoPosition({
 		matchPart: {
 			type: "text",
@@ -45,7 +45,7 @@ it("corrects match using offset for match part on the same line and columnIndex"
 	});
 });
 
-it("corrects match using offset for match part on a different line", () => {
+test("match part on a different line", () => {
 	const adjustedMatch = matchPartRelativetoPosition({
 		matchPart: {
 			type: "text",

@@ -1,6 +1,6 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { splitByLine } from "./split-by-line";
 
-it("splits lines by \n", () => {
+test("splits lines", () => {
 	expect(splitByLine("one\ntwo")).toEqual(["one", "two"]);
 });

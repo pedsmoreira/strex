@@ -1,10 +1,10 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { getPartsInPatternString } from "../pattern/get-parts-in-pattern-string";
 import { StrexPattern } from "../types/strex-pattern";
 import { matchPatternInLines } from "./match-pattern-in-lines";
 import { joinLines } from "../line-utils/join-lines";
 
-it("matches a pattern across lines", () => {
+test("pattern across lines", () => {
 	const lines = [
 		"this is line one",
 		"this is line two",

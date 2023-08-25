@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { sliceLinesByEnclosing } from "./slice-lines-by-enclosing";
 
 const lines = [
@@ -7,7 +7,7 @@ const lines = [
 	"}", // end
 ];
 
-it("finds the enclosing ()", () => {
+test("enclosing ()", () => {
 	expect(sliceLinesByEnclosing({ lines, open: "(", close: ")" })).toEqual({
 		lines: ["export function doIt(fn: () => void)"],
 		endLineIndex: 0,
@@ -15,7 +15,7 @@ it("finds the enclosing ()", () => {
 	});
 });
 
-it("finds the enclosing {}", () => {
+test("enclosing {}", () => {
 	expect(sliceLinesByEnclosing({ lines, open: "{", close: "}" })).toEqual({
 		lines: [
 			"export function doIt(fn: () => void) {",

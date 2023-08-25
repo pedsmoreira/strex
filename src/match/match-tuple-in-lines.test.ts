@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { matchTupleInLines } from "./match-tuple-in-lines";
 
-it("returns match parts given a tuple with text only", () => {
+test("tuple with text only", () => {
 	expect(
 		matchTupleInLines({
 			lines: ["hello world from the moon"],
@@ -20,7 +20,7 @@ it("returns match parts given a tuple with text only", () => {
 	]);
 });
 
-it("returns match parts given a tuple with variable only", () => {
+test("tuple with variable only", () => {
 	expect(
 		matchTupleInLines({
 			lines: ["hello world from the moon"],
@@ -41,7 +41,7 @@ it("returns match parts given a tuple with variable only", () => {
 	]);
 });
 
-it("returns match parts given a tuple with variable + text", () => {
+test("tuple with variable + text", () => {
 	expect(
 		matchTupleInLines({
 			lines: ["hello world from the moon"],

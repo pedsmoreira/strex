@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { sliceLinesByTabSpacing } from "./slice-lines-by-tab-spacing";
 
-it("finds the enclosing tab", () => {
+test("enclosing tab", () => {
 	const lines = [
 		"if x == 1:",
 		"\t# indented tab",
@@ -17,7 +17,7 @@ it("finds the enclosing tab", () => {
 	]);
 });
 
-it("finds the enclosing space", () => {
+test("enclosing space", () => {
 	const lines = [
 		"if x == 1:",
 		"    # indented four spaces",

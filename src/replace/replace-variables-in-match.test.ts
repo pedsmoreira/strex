@@ -1,9 +1,9 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { replaceVariablesInMatch } from "./replace-variables-in-match";
 import { StrexMatch } from "../StrexMatch";
 import { splitByLine } from "../line-utils/split-by-line";
 
-it("replaces variable in case #1", () => {
+test("variable replacement", () => {
 	const contents = "Hello world from the moon";
 	const lines = splitByLine(contents);
 

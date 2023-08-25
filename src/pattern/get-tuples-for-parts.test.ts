@@ -1,7 +1,7 @@
-import { expect, it } from "vitest";
+import { expect, test } from "vitest";
 import { getTuplesForParts } from "./get-tuples-for-parts";
 
-it("returns tuples starting with variable", () => {
+test("starting with variable", () => {
 	expect(
 		getTuplesForParts([
 			{ type: "variable", name: "variable-one" },
@@ -21,7 +21,7 @@ it("returns tuples starting with variable", () => {
 	]);
 });
 
-it("returns tuples starting with text", () => {
+test("starting with text", () => {
 	expect(
 		getTuplesForParts([
 			{ type: "text", text: "text-one" },
@@ -37,7 +37,7 @@ it("returns tuples starting with text", () => {
 	]);
 });
 
-it("returns tuples ending with variable", () => {
+test("ending with variable", () => {
 	expect(
 		getTuplesForParts([
 			{ type: "variable", name: "variable-one" },
