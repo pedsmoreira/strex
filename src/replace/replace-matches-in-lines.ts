@@ -3,23 +3,21 @@ import { splitByLine } from "../line-utils/split-by-line";
 import { joinLines } from "../line-utils/join-lines";
 import { StrexMatch } from "../StrexMatch";
 
-type Args<T extends string> = {
-	contents: string;
-	matches: StrexMatch<T>[];
-	replace: (part: StrexMatch<T>) => string;
-};
-
 function matchString(match: StrexMatch<string>) {
 	return `${match.startLineIndex}:${match.startColumnIndex}`;
 }
 
-export function replaceMatches<T extends string>({
-	contents,
+type Args<TVar extends string> = {
+	lines: string[];
+	matches: StrexMatch<TVar>[];
+	replace: (part: StrexMatch<TVar>) => string;
+};
+
+export function replaceMatchesInLines<TVar extends string>({
+	lines,
 	matches,
 	replace,
-}: Args<T>): string {
-	const lines = splitByLine(contents);
-
+}: Args<TVar>): string {
 	// Must remove the last lines first otherwise the indexes will be incorrect
 	const sortedMatches = matches
 		.sort((matchA, matchB) => {

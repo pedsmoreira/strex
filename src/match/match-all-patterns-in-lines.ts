@@ -4,25 +4,29 @@ import { StrexPattern } from "../types/strex-pattern";
 import { createMatchFromParts } from "./create-match-from-parts";
 import { matchPatternInLines } from "./match-pattern-in-lines";
 
-type Args<T extends string> = {
+type Args<TVar extends string> = {
 	lines: string[];
-	pattern: StrexPattern;
+	pattern: StrexPattern<TVar>;
 	recursion?: {
 		originalLines: string[];
-		matches: StrexMatch<T>[];
+		matches: StrexMatch<TVar>[];
 		offsetLineIndex: number;
 		offsetColumnIndex: number;
 	};
 };
 
-export function matchAllPatternsInLines<T extends string>({
+export function matchAllPatternsInLines<TVar extends string>({
 	lines,
 	pattern,
 	recursion,
-}: Args<T>): StrexMatch<T>[] {
-	if (lines.filter(Boolean).length === 0) return recursion?.matches || [];
-
+}: Args<TVar>): StrexMatch<TVar>[] {
 	const originalLines = recursion?.originalLines || lines;
+	const matches = recursion?.matches ?? [];
+	const offsetLineIndex = recursion?.offsetLineIndex ?? 0;
+	const offsetColumnIndex = recursion?.offsetColumnIndex ?? 0;
+
+	if (lines.filter(Boolean).length === 0) return matches;
+
 	const parts = matchPatternInLines({ lines, pattern });
 
 	if (parts.length === 0) {
@@ -31,8 +35,8 @@ export function matchAllPatternsInLines<T extends string>({
 			pattern,
 			recursion: {
 				originalLines,
-				matches: recursion?.matches ?? [],
-				offsetLineIndex: (recursion?.offsetLineIndex ?? 0) + 1,
+				matches,
+				offsetLineIndex: offsetLineIndex + 1,
 				offsetColumnIndex: 0,
 			},
 		});
@@ -41,8 +45,8 @@ export function matchAllPatternsInLines<T extends string>({
 	const match = createMatchFromParts({
 		lines: originalLines,
 		parts,
-		offsetLineIndex: recursion?.offsetLineIndex ?? 0,
-		offsetColumnIndex: recursion?.offsetColumnIndex ?? 0,
+		offsetLineIndex,
+		offsetColumnIndex,
 	});
 
 	const lastPart = parts[parts.length - 1];
@@ -60,7 +64,7 @@ export function matchAllPatternsInLines<T extends string>({
 		pattern,
 		recursion: {
 			originalLines,
-			matches: [...(recursion?.matches ?? []), match],
+			matches: [...matches, match],
 			offsetLineIndex: match.endLineIndex,
 			offsetColumnIndex: match.endColumnIndex,
 		},

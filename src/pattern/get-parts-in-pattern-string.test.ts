@@ -3,7 +3,10 @@ import { getPartsInPatternString } from "./get-parts-in-pattern-string";
 
 it("matches case #1", () => {
 	expect(
-		getPartsInPatternString("import @{{ name }} from '@{{ location }}';"),
+		getPartsInPatternString({
+			patternString: "import @{{ name }} from '@{{ location }}';",
+			variables: ["name", "location"],
+		}),
 	).toEqual([
 		{ type: "text", text: "import " },
 		{ type: "variable", name: "name" },

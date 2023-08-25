@@ -3,9 +3,11 @@ export type StrexTextPart = {
 	readonly text: string;
 };
 
-export type StrexVariablePart = {
+export type StrexVariablePart<TVar extends string> = {
 	readonly type: "variable";
-	readonly name: string;
+	readonly name: TVar;
 };
 
-export type StrexPart = StrexTextPart | StrexVariablePart;
+export type StrexPart<TVar extends string> =
+	| StrexTextPart
+	| StrexVariablePart<TVar>;

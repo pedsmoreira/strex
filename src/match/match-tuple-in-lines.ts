@@ -6,9 +6,9 @@ import {
 } from "../types/strex-part-match";
 import { StrexPartTuple } from "../types/strex-part-tuple";
 
-type Args = {
+type Args<TVar extends string> = {
 	lines: string[];
-	tuple: StrexPartTuple;
+	tuple: StrexPartTuple<TVar>;
 	mustMatchAtLineStart: boolean;
 	mustMatchAtLineEnd: boolean;
 };
@@ -18,7 +18,7 @@ export function matchTupleInLines<TVar extends string>({
 	tuple,
 	mustMatchAtLineStart,
 	mustMatchAtLineEnd,
-}: Args): StrexPartMatch<TVar>[] {
+}: Args<TVar>): StrexPartMatch<TVar>[] {
 	const [patternVariablePart, patternTextPart] = tuple;
 
 	/*

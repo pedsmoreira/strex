@@ -6,22 +6,22 @@ import { getTuplesForParts } from "../pattern/get-tuples-for-parts";
 import { sliceLines } from "../line-utils/slice-lines";
 import { matchPartWithOffset } from "../match/match-part-with-offset";
 
-type Args = {
+type Args<TVar extends string> = {
 	lines: string[];
-	pattern: StrexPattern;
+	pattern: StrexPattern<TVar>;
 };
 
-export function matchPatternInLines<T extends string>({
+export function matchPatternInLines<TVar extends string>({
 	lines: originalLines,
 	pattern,
-}: Args): StrexPartMatch<T>[] {
+}: Args<TVar>): StrexPartMatch<TVar>[] {
 	const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd, endOn } =
 		pattern;
 
 	const slicedLines = linesForEndOn({ lines: originalLines, endOn });
 
 	const tuples = getTuplesForParts(patternParts);
-	const matchParts: StrexPartMatch<T>[] = [];
+	const matchParts: StrexPartMatch<TVar>[] = [];
 
 	for (let i = 0; i < tuples.length; i++) {
 		if (slicedLines.length === 0) return [];
@@ -48,7 +48,7 @@ export function matchPatternInLines<T extends string>({
 		const isFirstTuple = i === 0;
 		const isLastTuple = i === tuples.length - 1;
 
-		const tupleMatches = matchTupleInLines<T>({
+		const tupleMatches = matchTupleInLines<TVar>({
 			lines,
 			tuple,
 			mustMatchAtLineStart: mustMatchAtLineStart || !isFirstTuple,

@@ -6,7 +6,7 @@ export type StrexTextPartMatch = {
 	endColumnIndex: number;
 };
 
-export type StrexVariablePartMatch<T extends string> = {
+export type StrexVariablePartMatch<TVar extends string> = {
 	type: "variable";
 	name: string;
 	value: string;
@@ -16,6 +16,6 @@ export type StrexVariablePartMatch<T extends string> = {
 	endColumnIndex: number;
 };
 
-export type StrexPartMatch<T extends string> =
+export type StrexPartMatch<TVar extends string> =
 	| StrexTextPartMatch
-	| StrexVariablePartMatch<T>;
+	| StrexVariablePartMatch<TVar>;

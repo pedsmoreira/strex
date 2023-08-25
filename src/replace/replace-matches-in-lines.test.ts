@@ -1,11 +1,10 @@
 import { expect, it } from "vitest";
 import { StrexMatch } from "../StrexMatch";
-import { replaceMatches } from "./replace-matches";
+import { replaceMatchesInLines } from "./replace-matches-in-lines";
 import { splitByLine } from "../line-utils/split-by-line";
 
 it("replaces matches", () => {
-	const contents = "Hello world from the moon";
-	const lines = splitByLine(contents);
+	const lines = ["Hello world from the moon"];
 
 	// "Hello @{{ what }} "
 	const match = new StrexMatch({
@@ -39,8 +38,8 @@ it("replaces matches", () => {
 		offsetColumnIndex: 0,
 	});
 
-	const replacement = replaceMatches({
-		contents,
+	const replacement = replaceMatchesInLines({
+		lines,
 		matches: [match],
 		replace: () => "Hello replacement ",
 	});

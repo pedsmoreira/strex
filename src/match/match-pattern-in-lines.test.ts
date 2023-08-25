@@ -12,8 +12,11 @@ it("matches a pattern across lines", () => {
 		"the line four",
 	];
 
-	const pattern: StrexPattern = {
-		patternParts: getPartsInPatternString("line @{{ remaining }}"),
+	const pattern: StrexPattern<"remaining"> = {
+		patternParts: getPartsInPatternString({
+			patternString: "line @{{ remaining }}",
+			variables: ["remaining"],
+		}),
 		mustMatchAtLineStart: false,
 		mustMatchAtLineEnd: false,
 		endOn: { type: "pattern" },

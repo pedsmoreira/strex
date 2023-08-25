@@ -2,19 +2,19 @@ import { StrexMatch } from "../StrexMatch";
 import { StrexPartMatch } from "../types/strex-part-match";
 import { matchPartRelativetoPosition } from "./match-part-relative-to-position";
 
-type Args<T extends string> = {
+type Args<TVar extends string> = {
 	lines: string[];
-	parts: StrexPartMatch<T>[];
+	parts: StrexPartMatch<TVar>[];
 	offsetLineIndex: number;
 	offsetColumnIndex: number;
 };
 
-export function createMatchFromParts<T extends string>({
+export function createMatchFromParts<TVar extends string>({
 	lines,
 	parts,
 	offsetLineIndex,
 	offsetColumnIndex,
-}: Args<T>): StrexMatch<T> {
+}: Args<TVar>): StrexMatch<TVar> {
 	const firstPart = parts[0];
 	const startLineIndex =
 		firstPart.type === "text" ? firstPart.lineIndex : firstPart.startLineIndex;
