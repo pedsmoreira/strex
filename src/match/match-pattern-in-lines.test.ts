@@ -19,7 +19,6 @@ test("pattern across lines", () => {
 		}),
 		mustMatchAtLineStart: false,
 		mustMatchAtLineEnd: false,
-		endOn: { type: "pattern" },
 	};
 
 	const parts = matchPatternInLines({ lines, pattern });

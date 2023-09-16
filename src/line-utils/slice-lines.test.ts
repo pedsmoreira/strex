@@ -25,14 +25,12 @@ test("between lines", () => {
 	expect(slice).toEqual(["line two", "A line"]);
 });
 
-test.skip("slices line until the end when end line when it is not provided", () => {
-	// TODO
-});
+test("slices line until the end when end line when it is not provided", () => {
+	const slice = sliceLines({
+		lines: ["Line one", "The line two", "A line three"],
+		startLineIndex: 1,
+		startColumnIndex: 4,
+	});
 
-test.skip("removes first line if it is empty because the slice ended at the end of the previous one", () => {
-	// TODO
-});
-
-test.skip("does not remove first line whe nempty if it was provided empty", () => {
-	// TODO
+	expect(slice).toEqual(["line two", "A line three"]);
 });

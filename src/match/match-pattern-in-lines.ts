@@ -1,6 +1,5 @@
 import { StrexPartMatch } from "../types/strex-part-match";
 import { StrexPattern } from "../types/strex-pattern";
-import { linesForEndOn } from "../line-utils/lines-for-end-on";
 import { matchTupleInLines } from "./match-tuple-in-lines";
 import { getTuplesForParts } from "../pattern/get-tuples-for-parts";
 import { sliceLines } from "../line-utils/slice-lines";
@@ -12,19 +11,16 @@ type Args<TVar extends string> = {
 };
 
 export function matchPatternInLines<TVar extends string>({
-	lines: originalLines,
+	lines,
 	pattern,
 }: Args<TVar>): StrexPartMatch<TVar>[] {
-	const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd, endOn } =
-		pattern;
-
-	const slicedLines = linesForEndOn({ lines: originalLines, endOn });
+	const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd } = pattern;
 
 	const tuples = getTuplesForParts(patternParts);
 	const matchParts: StrexPartMatch<TVar>[] = [];
 
 	for (let i = 0; i < tuples.length; i++) {
-		if (slicedLines.length === 0) return [];
+		if (lines.length === 0) return [];
 
 		const tuple = tuples[i];
 
@@ -39,8 +35,8 @@ export function matchPatternInLines<TVar extends string>({
 
 		const offsetColumnIndex = lastMatchPart ? lastMatchPart.endColumnIndex : 0;
 
-		const lines = sliceLines({
-			lines: slicedLines,
+		const slicedLines = sliceLines({
+			lines,
 			startLineIndex: offsetLineIndex,
 			startColumnIndex: offsetColumnIndex,
 		});
@@ -49,9 +45,9 @@ export function matchPatternInLines<TVar extends string>({
 		const isLastTuple = i === tuples.length - 1;
 
 		const tupleMatches = matchTupleInLines<TVar>({
-			lines,
+			lines: slicedLines,
 			tuple,
-			mustMatchAtLineStart: mustMatchAtLineStart || !isFirstTuple,
+			mustMatchAtLineStart: mustMatchAtLineStart && isFirstTuple,
 			mustMatchAtLineEnd: mustMatchAtLineEnd && isLastTuple,
 		}).map((matchPart) =>
 			matchPartWithOffset({ matchPart, offsetLineIndex, offsetColumnIndex }),

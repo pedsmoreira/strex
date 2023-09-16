@@ -10,8 +10,8 @@ export class StrexResult<TVar extends string> {
 		this.matches = data.matches;
 	}
 
-	replaceMatches(replace: (part: StrexMatch<TVar>) => string) {
-		replaceMatchesInLines({
+	replaceMatches(replace: (part: StrexMatch<TVar>) => string): string {
+		return replaceMatchesInLines({
 			lines: this.lines,
 			matches: this.matches,
 			replace,

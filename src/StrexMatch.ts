@@ -2,6 +2,7 @@ import { joinLines } from "./line-utils/join-lines";
 import { StrexPartMatch } from "./types/strex-part-match";
 import { isVariablePartMatch } from "./utils/is-variable-part-match";
 import { sliceLines } from "./line-utils/slice-lines";
+import { replaceVariablesInPartMatches } from "./replace/replace-variables-in-match";
 
 export class StrexMatch<TVar extends string> {
 	readonly lines: string[];
@@ -86,6 +87,13 @@ export class StrexMatch<TVar extends string> {
 			startColumnIndex: this.startColumnIndex,
 			endLineIndex: this.endLineIndex,
 			endColumnIndex: this.endColumnIndex,
+		});
+	}
+
+	replaceVariables(variables: Partial<Record<TVar, string>>): string {
+		return replaceVariablesInPartMatches({
+			partMatches: this.partMatches,
+			variables,
 		});
 	}
 }
