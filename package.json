@@ -1,7 +1,7 @@
 {
   "name": "@dxtr.dev/strex",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "String Expressions: human-readable alternative to RegEx",
   "main": "dist/strex.js",
   "types": "dist/strex.d.ts",
