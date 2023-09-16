@@ -2,7 +2,7 @@
   "name": "@dxtr.dev/strex",
   "type": "module",
   "version": "0.0.1",
-  "description": "String Expressions - human-readable approach to using RegEx in text files",
+  "description": "String Expressions: human-readable alternative to RegEx",
   "main": "dist/strex.js",
   "types": "dist/strex.d.ts",
   "homepage": "https://dxtr.dev/strex",
@@ -10,9 +10,13 @@
   "author": "DXTR.DEV <code@dxtr.dev>",
   "license": "MIT",
   "keywords": [
+    "strex",
     "regex",
     "string",
-    "text"
+    "string expressions",
+    "text",
+    "text search",
+    "text replacement"
   ],
   "files": [
     "dist"
