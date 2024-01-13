@@ -1,13 +1,12 @@
 {
-  "name": "@dxtr.dev/strex",
+  "name": "strex",
   "type": "module",
   "version": "1.0.0",
   "description": "String Expressions: human-readable alternative to RegEx",
   "main": "dist/strex.js",
   "types": "dist/strex.d.ts",
-  "homepage": "https://dxtr.dev/strex",
-  "repository": "https://github.com/dxtr-dot-dev/strex",
-  "author": "DXTR.DEV <code@dxtr.dev>",
+  "repository": "https://github.com/pedsmoreira/strex",
+  "author": "Pedro Moreira <code@pedrosm.com>",
   "license": "MIT",
   "keywords": [
     "strex",
@@ -25,17 +24,15 @@
     "build": "tsup --entry.strex src/strex.ts --dts --format esm --minify",
     "build:watch": "yarn build --watch",
     "typecheck": "tsc --target ES6 --noEmit",
-    "format": "rome format src --write",
-    "lint": "rome check src",
+    "format": "prettier ./src/**/* --write; prettier ./*.md --write",
     "test": "vitest",
     "postversion": "git push && git push --tags",
-    "ci:check": "yarn check",
     "ci:test": "yarn build && yarn test",
-    "preversion": "yarn build && yarn test && yarn lint",
+    "preversion": "yarn build && yarn test",
     "version": "yarn build && git add package.json"
   },
   "devDependencies": {
-    "rome": "^12.1.3",
+    "prettier": "^3.2.1",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.4"

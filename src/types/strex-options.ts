@@ -1,4 +1,4 @@
 export type StrexOptions = {
-	mustMatchAtLineStart?: boolean;
-	mustMatchAtLineEnd?: boolean;
+  mustMatchAtLineStart?: boolean;
+  mustMatchAtLineEnd?: boolean;
 };

@@ -6,57 +6,57 @@ import { sliceLines } from "../line-utils/slice-lines";
 import { matchPartWithOffset } from "../match/match-part-with-offset";
 
 type Args<TVar extends string> = {
-	lines: string[];
-	pattern: StrexPattern<TVar>;
+  lines: string[];
+  pattern: StrexPattern<TVar>;
 };
 
 export function matchPatternInLines<TVar extends string>({
-	lines,
-	pattern,
+  lines,
+  pattern,
 }: Args<TVar>): StrexPartMatch<TVar>[] {
-	const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd } = pattern;
+  const { patternParts, mustMatchAtLineStart, mustMatchAtLineEnd } = pattern;
 
-	const tuples = getTuplesForParts(patternParts);
-	const matchParts: StrexPartMatch<TVar>[] = [];
+  const tuples = getTuplesForParts(patternParts);
+  const matchParts: StrexPartMatch<TVar>[] = [];
 
-	for (let i = 0; i < tuples.length; i++) {
-		if (lines.length === 0) return [];
+  for (let i = 0; i < tuples.length; i++) {
+    if (lines.length === 0) return [];
 
-		const tuple = tuples[i];
+    const tuple = tuples[i];
 
-		const lastMatchPart =
-			matchParts.length > 0 ? matchParts[matchParts.length - 1] : undefined;
+    const lastMatchPart =
+      matchParts.length > 0 ? matchParts[matchParts.length - 1] : undefined;
 
-		const offsetLineIndex = lastMatchPart
-			? lastMatchPart.type === "text"
-				? lastMatchPart.lineIndex
-				: lastMatchPart.endLineIndex
-			: 0;
+    const offsetLineIndex = lastMatchPart
+      ? lastMatchPart.type === "text"
+        ? lastMatchPart.lineIndex
+        : lastMatchPart.endLineIndex
+      : 0;
 
-		const offsetColumnIndex = lastMatchPart ? lastMatchPart.endColumnIndex : 0;
+    const offsetColumnIndex = lastMatchPart ? lastMatchPart.endColumnIndex : 0;
 
-		const slicedLines = sliceLines({
-			lines,
-			startLineIndex: offsetLineIndex,
-			startColumnIndex: offsetColumnIndex,
-		});
+    const slicedLines = sliceLines({
+      lines,
+      startLineIndex: offsetLineIndex,
+      startColumnIndex: offsetColumnIndex,
+    });
 
-		const isFirstTuple = i === 0;
-		const isLastTuple = i === tuples.length - 1;
+    const isFirstTuple = i === 0;
+    const isLastTuple = i === tuples.length - 1;
 
-		const tupleMatches = matchTupleInLines<TVar>({
-			lines: slicedLines,
-			tuple,
-			mustMatchAtLineStart: mustMatchAtLineStart && isFirstTuple,
-			mustMatchAtLineEnd: mustMatchAtLineEnd && isLastTuple,
-		}).map((matchPart) =>
-			matchPartWithOffset({ matchPart, offsetLineIndex, offsetColumnIndex }),
-		);
+    const tupleMatches = matchTupleInLines<TVar>({
+      lines: slicedLines,
+      tuple,
+      mustMatchAtLineStart: mustMatchAtLineStart && isFirstTuple,
+      mustMatchAtLineEnd: mustMatchAtLineEnd && isLastTuple,
+    }).map((matchPart) =>
+      matchPartWithOffset({ matchPart, offsetLineIndex, offsetColumnIndex }),
+    );
 
-		if (tupleMatches.length === 0) return [];
+    if (tupleMatches.length === 0) return [];
 
-		matchParts.push(...tupleMatches);
-	}
+    matchParts.push(...tupleMatches);
+  }
 
-	return matchParts;
+  return matchParts;
 }
